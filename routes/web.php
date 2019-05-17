@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'WebController@index');
+Route::get('/home', 'WebController@home')->name('home');
+Route::post('/login', 'WebController@login');
