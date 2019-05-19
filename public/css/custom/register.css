@@ -1,0 +1,185 @@
+/*
+* Specific styles of signin component
+*/
+/*
+* General styles
+*/
+body, html {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#4caf50, #4caf50);
+}
+
+.card-container.card {
+  max-width: 350px;
+  padding: 40px 40px;
+}
+
+.container {
+  position: fixed;
+  top:10%;
+  left:35%;
+}
+
+.judul {
+  position: fixed;
+  top:25%;
+  left:10%;
+  font-size: 60px;
+  text-align: left;
+  margin: 10px 0 5px 0;
+  min-height: 1em;
+  color : #ffffff;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+.keterangan {
+  position: fixed;
+  top:50%;
+  left:10%;
+  font-size: 29px;
+  text-align: left;
+  margin: 10px 0 5px 0;
+  min-height: 1em;
+  color : #eeeeee;
+  font-family: 'Roboto:300', sans-serif;
+
+}
+
+.btn {
+  font-weight: 700;
+  height: 36px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+/*
+* Card component
+*/
+.card {
+  background-color: #F7F7F7;
+  /* just in case there no content*/
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  /* shadows and rounded borders */
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 10px 5px #999;
+}
+
+/*
+* Form styles
+*/
+.profile-name-card {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0 20px 0;
+  min-height: 1em;
+  color : #009688;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+
+.form-signin #inputEmail,
+.form-signin #inputPassword {
+  direction: ltr;
+  height: 44px;
+  font-size: 16px;
+}
+
+.form-signin input[type=email],
+.form-signin input[type=password],
+.form-signin input[type=text],
+.form-signin button {
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+  z-index: 1;
+  position: relative;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.form-signin .form-control:focus {
+  border-color: rgb(104, 145, 162);
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+}
+
+
+
+
+
+input[type="submit"] {
+  width:100%;
+  height:60px;
+  display:block;
+  font-family: 'Roboto', sans-serif;
+  font-size:16px;
+  font-weight:bold;
+  color:#fff;
+  text-decoration:none;
+  text-transform:uppercase;
+  text-align:center;
+  text-shadow:1px 1px 0px #37a69b;
+  padding-top:6px;
+  margin-top : 30px;
+  position:relative;
+  cursor:pointer;
+  border: none;
+  background-color: #43a047;
+  background-image: linear-gradient(top,#3db0a6,#3111);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius:5px;
+
+}
+
+.shadow {
+  background: #000;
+  border-radius: 12px 12px 4px 4px;
+  box-shadow: 0 0 20px 10px #000;
+  height: 12px;
+  margin: 30px auto;
+  opacity: 0.2;
+  width: 270px;
+}
+
+
+input[type="submit"]:hover,
+input[type="submit"]:active,
+input[type="submit"]:focus {
+  box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78, 0px 10px 5px #999;
+}
+
+.subtext {
+  font-size: 14px;
+  text-align: left;
+  margin: 10px 0 5px 0;
+  min-height: 1em;
+  color : #1b5e20;
+  font-family: 'Roboto', sans-serif;
+
+}

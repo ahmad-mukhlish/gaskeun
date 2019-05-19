@@ -3,7 +3,7 @@
 <title> Dashboard </title>
 </head>
 <body>
-  {{$nama}}
+  {{$nama}} <br>
   {{$no_telp}}
 </body>
 </html>

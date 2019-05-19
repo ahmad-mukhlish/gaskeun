@@ -17,7 +17,7 @@
     <div class="card card-container">
       <img id="profile-img" class="profile-img-card" src="{{url('images/login.png')}}" />
       <p id="profile-name" class="profile-name-card">Login Pemilik</p>
-      <form class="form-signin" method="post" action="{{url('/login')}}">
+      <form class="form-signin" method="post" action="{{url('/loginPost')}}">
 
         <!-- required  for post method in laravel form -->
         {{csrf_field()}}
@@ -33,6 +33,12 @@
           <script type="text/javascript">  new duDialog('Error', "{{$message}}"); </script>
 
         <?php } ?>
+
+        <center class="register"> Belum punya akun?
+
+          <a href="{{url('/register')}}">  Silakan Daftar.. </a>
+
+        </center>
 
       </form>
     </div>

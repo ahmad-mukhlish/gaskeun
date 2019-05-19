@@ -23,7 +23,7 @@ class WebController extends Controller
   }
 
 
-  public function login(Request $request)
+  public function loginPost(Request $request)
   {
     $username = $request->username;
     $password = $request->password;
@@ -36,8 +36,8 @@ class WebController extends Controller
     if ($user!=null) {
       $request->session()->put('username', $username);
       return redirect()->action(
-        'WebController@home', ['nama' => $user->nama,
-        'no_telp' => $user->no_telp
+        'WebController@home', ['username' => $user->username,
+        'email' => $user->email
 
         // TODO: pass the object for detail on dashboard
 
@@ -50,12 +50,26 @@ class WebController extends Controller
   public function home(Request $request)
   {
     if ($request->session()->has('username')) {
-      $username = "Hello ".$request->session()->get('username');
-      return view('webView.home')->with('nama',$request->nama)->
-                                   with('no_telp',$request->no_telp);
+      return view('webView.home')->with('nama',$request->username)->
+      with('no_telp',$request->email);
     }else{
       return redirect('/');
     }
+  }
+
+  public function register()
+  {
+    return view('webView.register');
+  }
+
+  public function registerPost(Request $request)
+  {
+    $pemilik = new Pemilik;
+    $pemilik->username = $request->username;
+    $pemilik->email = $request->email;
+    $pemilik->password = $request->password;
+    $pemilik->save();
+    return redirect('/');
   }
 
 }

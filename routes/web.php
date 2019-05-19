@@ -13,4 +13,6 @@
 
 Route::get('/', 'WebController@index');
 Route::get('/home', 'WebController@home')->name('home');
-Route::post('/login', 'WebController@login');
+Route::post('/loginPost', 'WebController@loginPost');
+Route::post('/registerPost', 'WebController@registerPost');
+Route::get('/register', 'WebController@register');
