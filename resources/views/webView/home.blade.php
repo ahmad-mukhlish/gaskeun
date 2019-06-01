@@ -1,9 +1,12 @@
 <html>
 <head>
-<title> Dashboard </title>
+  <title> Dashboard </title>
 </head>
 <body>
-  {{$nama}} <br>
-  {{$no_telp}}
+  @extends('webView/navbar',  ['nama' => $nama], ['title' => 'Dashboard'])
+  @section('content')
+
+  @endsection
 </body>
+
 </html>
