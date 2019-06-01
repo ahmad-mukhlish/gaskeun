@@ -12,7 +12,10 @@
 */
 
 Route::get('/', 'WebController@index');
-Route::get('/home', 'WebController@home')->name('home');
+Route::get('/dashboard', 'WebController@dashboard')->name('dashboard');
 Route::post('/loginPost', 'WebController@loginPost');
 Route::post('/registerPost', 'WebController@registerPost');
 Route::get('/register', 'WebController@register');
+Route::get('/profil', 'WebController@profil');
+Route::get('/pedagang', 'WebController@pedagang');
+Route::get('/makanan', 'WebController@makanan');

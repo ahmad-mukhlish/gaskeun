@@ -30,10 +30,28 @@
 
       </a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Dashboard</a></li>
-        <li><a href="sass.html">Profil</a></li>
-        <li><a href="badges.html">Pedagang</a></li>
-        <li><a href="collapsible.html">Makanan</a></li>
+
+        <li <?php if($title == "Dashboard") echo "class = active" ;  ?>>
+          <a href="{{url('/dashboard')}}">  Dashboard </a>
+        </li>
+
+
+        <li <?php if($title == "Profil") echo "class = active" ;  ?>>
+          <a href="{{url('/profil')}}">  Profil </a>
+        </li>
+
+        <li <?php if($title == "Pedagang") echo "class = active" ;  ?>>
+          <a href="{{url('/pedagang')}}">  Pedagang </a>
+        </li>
+
+
+        <li <?php if($title == "Makanan") echo "class = active" ;  ?>>
+          <a href="{{url('/makanan')}}"> Makanan </a>
+        </li>
+
+
+
+
       </ul>
     </div>
   </nav>

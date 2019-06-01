@@ -36,22 +36,43 @@ class WebController extends Controller
     if ($user!=null) {
       $request->session()->put('username', $username);
       return redirect()->action(
-        'WebController@home', ['username' => $user->username,
-        'email' => $user->email
-
-        // TODO: pass the object for detail on dashboard
-
-      ]);
+        'WebController@dashboard', ['username' => $user->username]);
     }else{
       return view('webView.login')->with('message', 'Username atau Password Salah');
     }
   }
 
-  public function home(Request $request)
+  public function dashboard(Request $request)
   {
     if ($request->session()->has('username')) {
-      return view('webView.home')->with('nama',$request->username)->
-      with('no_telp',$request->email);
+      return view('webView.dashboard')->with('nama',$request->session()->get('username'));
+    }else{
+      return redirect('/');
+    }
+  }
+
+  public function profil(Request $request)
+  {
+    if ($request->session()->has('username')) {
+      return view('webView.profil')->with('nama',$request->session()->get('username'));
+    }else{
+      return redirect('/');
+    }
+  }
+
+  public function pedagang(Request $request)
+  {
+    if ($request->session()->has('username')) {
+      return view('webView.pedagang')->with('nama',$request->session()->get('username'));
+    }else{
+      return redirect('/');
+    }
+  }
+
+  public function makanan(Request $request)
+  {
+    if ($request->session()->has('username')) {
+      return view('webView.makanan')->with('nama',$request->session()->get('username'));
     }else{
       return redirect('/');
     }
