@@ -1,0 +1,43 @@
+
+.isi {
+
+  margin : 32px 16px 16px 16px ;
+
+}
+
+.row .input-field label {
+  color: #9e9e9e;
+}
+
+#alamatnya {
+  margin-left: 0px;
+  max-width: 92.3%;
+}
+
+.foto {
+  position: relative;
+  top : 20 % ;
+  font-family: 'Roboto:300', sans-serif;
+
+}
+
+.fixed {
+  position: fixed;
+  bottom: 30;
+  right: 30;
+
+}
+
+#toast-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 10%;
+  left:42%;
+}
+
+#fileInput {
+    display: block;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}

@@ -19,7 +19,7 @@
 </head>
 <body>
   <nav>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper z-depth-3">
       <a href="#" class="brand-logo">
 
         <?php
@@ -49,6 +49,9 @@
           <a href="{{url('/makanan')}}"> Makanan </a>
         </li>
 
+        <li>
+          <a href="{{url('/logout')}}"> Logout </a>
+        </li>
 
 
 
