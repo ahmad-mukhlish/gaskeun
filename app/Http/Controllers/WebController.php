@@ -79,8 +79,15 @@ class WebController extends Controller
 
     public function pedagang(Request $request)
     {
+
       if ($request->session()->has('username')) {
-        return view('webView.pedagang')->with('nama',$request->session()->get('username'));
+
+        $listPedagang = Pedagang::all();
+        return view('webView.pedagang')->
+        with('nama',$request->session()->get('username'))->
+        with('listPedagang',$listPedagang)
+        ;
+
       }else{
         return redirect('/');
       }

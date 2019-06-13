@@ -32,10 +32,10 @@
               <?php
               if ($foto != null) {
                 $url = "storage/user-profiles/".$foto ;
-                echo url($url) ;
+                echo asset($url) ;
               }
               else {
-                echo url('images/placeholder.jpg') ;
+                echo asset('images/placeholder.jpg') ;
               }
               ?>
               " id=gambarUbah>

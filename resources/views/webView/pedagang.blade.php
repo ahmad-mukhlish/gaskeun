@@ -1,12 +1,121 @@
 <html>
 <head>
   <title> Pedagang </title>
+
+  <!-- custom css and js for this blade -->
+  <link rel="stylesheet" type="text/css" href="{{url('css/custom/pedagang.css')}}">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="{{url('js/custom/pedagang.js')}}"></script>
+
 </head>
 <body>
   @extends('webView/navbar',  ['nama' => $nama], ['title' => 'Pedagang'])
   @section('content')
 
-  @endsection
-</body>
 
-</html>
+
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+  <div class="container">
+
+    <?php $count = 0 ;?>
+    @foreach($listPedagang as $pedagang)
+
+    <?php $count++ ;
+    if  ($count % 2 == 1)
+    {echo '<div class="row">';}?>
+
+      <div class="col s6">
+        <div class="make-3D-space">
+          <div class="product-card" id="<?php echo "product-card".$pedagang->id_pedagang?>">
+            <div class="product-front" id="<?php echo "product-front".$pedagang->id_pedagang?>">
+              <div class="shadow" id="<?php echo "shadow".$pedagang->id_pedagang?>"></div>
+              <div class="card-img" style="background-image:url('{{asset('storage/pedagang-profiles/'.$pedagang->foto)}}')"></div>
+              <div class="image_overlay"></div>
+              <div class="view_details" onclick=" <?php echo "flip(".$pedagang->id_pedagang.");"  ?>">
+                Detail {{$pedagang->nama}}
+              </div>
+              <div class="stats">
+                <div class="stats-container">
+                  <span class="product_price">$39</span>
+                  <span class="product_name">{{$pedagang->nama}}</span>
+                  <div class="product-options">
+                    <strong>Pedagang {{$pedagang->jenis}}</strong> <br> <br>
+                    Nomor telepon : <br>
+                    <strong>{{$pedagang->no_telp}}</strong>
+                    <div class="fixed-action-btn" id="<?php echo "fixed-action-btn".$pedagang->id_pedagang?>">
+                      <a class="btn-floating btn-large green">
+                        <i class="large material-icons">mode_edit</i>
+                      </a>
+                      <ul>
+                        <li><a class="btn-floating blue"><i class="material-icons">mode_edit</i></a></li>
+                        <li><a class="btn-floating red"><i class="material-icons">delete</i></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="product-back" id="<?php echo "product-back".$pedagang->id_pedagang?>">
+              <div class="shadow" id="<?php echo "shadow-back".$pedagang->id_pedagang?>"></div>
+              <div class="carousel" id="<?php echo "carousel".$pedagang->id_pedagang?>">
+
+                <!-- hidden inputs for js variables -->
+                <input type="hidden" id="<?php echo "isAnimating".$pedagang->id_pedagang?>" value="false"/>
+                <input type="hidden" id="<?php echo "carouselWidth".$pedagang->id_pedagang?>" value="0"/>
+                <input type="hidden" id="<?php echo "page".$pedagang->id_pedagang?>" value="5"/>
+
+
+                <ul>
+                  <li>
+
+                    <div class="back-content">
+                      <p> <i class="inline-icon material-icons"> person </i>&nbsp;&nbsp;{{$pedagang->nama}} </p>
+                      <p> <i class="inline-icon material-icons"> email </i>&nbsp;&nbsp;{{$pedagang->email}} </p>
+                      <p> <i class="inline-icon material-icons"> phone </i>&nbsp;&nbsp;{{$pedagang->no_telp}} </p>
+                      <p> <i class="inline-icon material-icons"> home </i>&nbsp;&nbsp;{{$pedagang->alamat}} </p>
+                      <p> <i class="inline-icon material-icons"> business_center </i>&nbsp;&nbsp;Pedagang {{$pedagang->jenis}} </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="back-content">
+                      <p> <i class="inline-icon material-icons"> supervisor_account </i>&nbsp;&nbsp;Username &nbsp;: {{$pedagang->username}} </p>
+                      <p> <i class="inline-icon material-icons"> security </i>&nbsp;&nbsp;Password&nbsp;&nbsp;&nbsp;: {{$pedagang->password}} </p>
+                    </div>
+                  </li>
+                </ul>
+                <div class="arrows-perspective">
+                  <div class="carouselPrev" id="<?php echo "carouselPrev".$pedagang->id_pedagang?>"
+                    onclick=" <?php echo "prev(".$pedagang->id_pedagang.");"  ?>">
+                    <div class="y"></div>
+                    <div class="x"></div>
+                  </div>
+                  <div class="carouselNext" id="<?php echo "carouselNext".$pedagang->id_pedagang?>"
+                    onclick=" <?php echo "next(".$pedagang->id_pedagang.");"  ?>">
+                    <div class="y"></div>
+                    <div class="x"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flip-back" onclick=" <?php echo "flipBack(".$pedagang->id_pedagang.");"  ?>"
+                id="<?php echo "flip-back".$pedagang->id_pedagang?>">
+                <div class="cy" id="<?php echo "cy".$pedagang->id_pedagang?>"></div>
+                <div class="cx" id="<?php echo "cx".$pedagang->id_pedagang?>"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <?php
+      if  ($count % 2 == 0)
+      {echo '</div>';} ?>
+
+      @endforeach
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    @endsection
+  </body>
+  </html>
