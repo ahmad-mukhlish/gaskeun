@@ -2,10 +2,19 @@
 <head>
   <title> Pedagang </title>
 
+
+  <!-- meta crsf token for ajax post -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
   <!-- custom css and js for this blade -->
   <link rel="stylesheet" type="text/css" href="{{url('css/custom/pedagang.css')}}">
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="{{url('js/custom/pedagang.js')}}"></script>
+
+  <!-- material dialog  -->
+  <link href="{{url('css/libs/material-dialog/duDialog.css')}}" rel="stylesheet">
+  <script src="{{url('js/libs/material-dialog/duDialog.js')}}"></script>
 
 </head>
 <body>
@@ -19,6 +28,9 @@
 
   <div class="container">
 
+
+
+
     <?php $count = 0 ;?>
     @foreach($listPedagang as $pedagang)
 
@@ -31,7 +43,7 @@
           <div class="product-card" id="<?php echo "product-card".$pedagang->id_pedagang?>">
             <div class="product-front" id="<?php echo "product-front".$pedagang->id_pedagang?>">
               <div class="shadow" id="<?php echo "shadow".$pedagang->id_pedagang?>"></div>
-              <div class="card-img" style="background-image:url('{{asset('storage/pedagang-profiles/'.$pedagang->foto)}}')"></div>
+              <div class="card-img" style="background-image:url('{{asset('storage/pedagang-profiles/'.$pedagang->foto)}}')"/></div>
               <div class="image_overlay"></div>
               <div class="view_details" onclick=" <?php echo "flip(".$pedagang->id_pedagang.");"  ?>">
                 Detail {{$pedagang->nama}}
@@ -45,13 +57,14 @@
                     Nomor telepon : <br>
                     <strong>{{$pedagang->no_telp}}</strong>
                     <div class="fixed-action-btn" id="<?php echo "fixed-action-btn".$pedagang->id_pedagang?>">
-                      <a class="btn-floating btn-large green">
+                      <a class="btn-floating btn-large green" href="{{url('/editPedagang/'.$pedagang->id_pedagang)}}">
                         <i class="large material-icons">mode_edit</i>
                       </a>
                       <ul>
-                        <li><a class="btn-floating blue"><i class="material-icons">mode_edit</i></a></li>
-                        <li><a class="btn-floating red"><i class="material-icons">delete</i></a></li>
+                        <li><a class="btn-floating blue" href="{{url('/editPedagang/'.$pedagang->id_pedagang)}}"><i class="material-icons">mode_edit</i></a></li>
+                        <li><a class="btn-floating red" onclick=" <?php echo "dialog(".$pedagang->id_pedagang.",'".$pedagang->nama."');"  ?>"><i class="material-icons">delete</i></a></li>
                       </ul>
+
                     </div>
                   </div>
                 </div>
@@ -113,6 +126,16 @@
       {echo '</div>';} ?>
 
       @endforeach
+    </div>
+
+    <div class="fixed">
+
+
+      <a class="btn-floating btn-large waves-effect waves-light green z-depth-3" id="add" href="{{url('/addPedagang')}}">
+        <i class="material-icons">add</i>
+      </a>
+
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 

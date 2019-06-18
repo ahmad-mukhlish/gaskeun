@@ -55,7 +55,7 @@ function readGambar(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
-        $('#gambarUbah').attr('src', e.target.result) ;
+        $('#gambarUbah').css({backgroundImage:'url(' + e.target.result + ')'}) ;
       };
 
       reader.readAsDataURL(input.files[0]);

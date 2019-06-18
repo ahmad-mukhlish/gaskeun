@@ -19,6 +19,15 @@ $(document).ready(function(){
 	});
 
 
+	$('#add').hover(function(){
+		$(this).removeClass('green');
+		$(this).addClass('blue');
+	},function(){
+		$(this).addClass('green');
+		$(this).removeClass('blue');
+	});
+
+
 
 
 });
@@ -84,6 +93,7 @@ function flip(id){
 			}, 100);
 		}, 100);
 	}, 150);
+
 
 }
 
@@ -174,5 +184,42 @@ function prev(id) {
 	$(page).val(pageCounter);
 	// $('div.carouselPrev').hide();
 	}
+
+
+}
+
+function dialog(id, nama){
+
+	// $("#delete").click(function(){
+		new duDialog('Konfirmasi Hapus', 'Anda Yakin Menghapus Data '+ nama +'?', duDialog.OK_CANCEL, {
+	okText: 'Ya',
+	cancelText: 'Tidak',
+	callbacks: {
+		okClick: function(){
+			this.hide();
+			var formdata = new FormData();
+			formdata.append("id",id);
+			$.ajax({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				type:'POST',
+				url:"/deletePedagangPost",
+				data : formdata,
+				contentType: false,
+				processData: false,
+				success:function(data){
+					M.toast({html: 'Data pedagang dihapus, mereload halaman...'}) ;
+					location.reload();
+				}
+
+			});
+		},
+		cancelClick: function(){
+				this.hide();
+		}
+	}
+});
+	// });
 
 }

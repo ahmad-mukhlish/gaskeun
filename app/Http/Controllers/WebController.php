@@ -36,7 +36,6 @@ class WebController extends Controller
     ->where('password', $password)
     ->first();
 
-    $coba = "coba" ;
     if ($user!=null) {
       $request->session()->put('username', $username);
       $request->session()->put('id_pemilik', $user->id_pemilik);
@@ -82,7 +81,10 @@ class WebController extends Controller
 
       if ($request->session()->has('username')) {
 
-        $listPedagang = Pedagang::all();
+        $listPedagang = DB::table('tb_pedagang')
+        ->where('id_pemilik',$request->session()->get('id_pemilik'))
+        ->get();
+
         return view('webView.pedagang')->
         with('nama',$request->session()->get('username'))->
         with('listPedagang',$listPedagang)
@@ -119,12 +121,12 @@ class WebController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->forget('username');
-        $request->session()->forget('id_pemilik');
-        $request->session()->flush();
+      Auth::logout();
+      $request->session()->forget('username');
+      $request->session()->forget('id_pemilik');
+      $request->session()->flush();
 
-        return redirect ('/');
+      return redirect ('/');
     }
 
     public function profilPost(Request $request)
@@ -132,24 +134,137 @@ class WebController extends Controller
 
       $user = Pemilik::find($request->session()->get('id_pemilik'));
 
-          if ($request->file('gambar')!=null) {
-              $fotoname = 'foto' . time() . '.png';
+      if ($request->file('gambar')!=null) {
+        $fotoname = 'foto' . time() . '.png';
 
-              $request->file('gambar')->storeAS('storage/user-profiles', $fotoname);
-              Storage::disk('uploads')->delete('storage/user-profiles/'.$user->foto);
-              $user->foto = $fotoname;
-          }
+        $request->file('gambar')->storeAS('storage/user-profiles', $fotoname);
+        Storage::disk('uploads')->delete('storage/user-profiles/'.$user->foto);
+        $user->foto = $fotoname;
+      }
 
-          $user->nama = $request->nama;
-          $user->no_telp = $request->no_telp;
-          $user->email = $request->email;
-          $user->jenis = $request->jenis;
-          $user->alamat = $request->alamat;
-          $user->save();
+      $user->nama = $request->nama;
+      $user->no_telp = $request->no_telp;
+      $user->email = $request->email;
+      $user->jenis = $request->jenis;
+      $user->alamat = $request->alamat;
+      $user->save();
 
 
-        return json_encode($request->file('gambar'));
+
+    }
+
+    public function addPedagang(Request $request)
+    {
+      if ($request->session()->has('username')) {
+        return view('webView.addPedagang')->with('nama',$request->session()->get('username'));
+      }else{
+        return redirect('/');
+      }
+    }
+
+
+    public function addPedagangPost(Request $request)
+    {
+
+      $pedagang = new Pedagang;
+      $pedagang->nama = $request->nama;
+      $pedagang->no_telp = $request->no_telp;
+      $pedagang->email = $request->email;
+      $pedagang->jenis = $request->jenis;
+      $pedagang->alamat = $request->alamat;
+      $pedagang->username = $request->username;
+      $pedagang->password = $request->password;
+      $pedagang->id_pemilik = $request->id_pemilik;
+
+
+      if ($request->file('gambar')!=null) {
+        $fotoname = 'foto' . time() . '.png';
+
+        $request->file('gambar')->storeAS('storage/pedagang-profiles', $fotoname);
+        $pedagang->foto = $fotoname;
+      }
+
+
+      $pedagang->save();
+
+    }
+
+    public function editPedagang(Request $request)
+    {
+      if ($request->session()->has('username')) {
+
+        $pedagang = Pedagang::find($request->id) ;
+
+        return view('webView.editPedagang')
+        ->with('nama',$request->session()->get('username'))
+        ->with('namaPedagang',$pedagang->nama)
+        ->with('no_telp',$pedagang->no_telp)
+        ->with('email',$pedagang->email)
+        ->with('jenis',$pedagang->jenis)
+        ->with('alamat',$pedagang->alamat)
+        ->with('username',$pedagang->username)
+        ->with('password',$pedagang->password)
+        ->with('foto',$pedagang->foto)
+        ->with('id',$pedagang->id_pedagang)
+        ;
+      }else{
+        return redirect('/');
+      }
+    }
+
+    public function editPedagangPost(Request $request)
+    {
+
+      $pedagang = Pedagang::find($request->id);
+
+      if ($request->file('gambar')!=null) {
+        $fotoname = 'foto' . time() . '.png';
+
+        $request->file('gambar')->storeAS('storage/pedagang-profiles', $fotoname);
+        Storage::disk('uploads')->delete('storage/pedagang-profiles/'.$pedagang->foto);
+        $pedagang->foto = $fotoname;
+      }
+
+      $pedagang->nama = $request->nama;
+      $pedagang->no_telp = $request->no_telp;
+      $pedagang->email = $request->email;
+      $pedagang->jenis = $request->jenis;
+      $pedagang->alamat = $request->alamat;
+      $pedagang->username = $request->username;
+      $pedagang->password = $request->password;
+
+      $pedagang->save();
+
+    }
+
+
+    public function deletePedagangPost(Request $request){
+      $pedagang = Pedagang::find($request->id) ;
+      Storage::disk('uploads')->delete('storage/pedagang-profiles/'.$pedagang->foto);
+      $hapus = Pedagang::where('id_pedagang',$request->id)->delete();
+    }
+
+    public function cekUsername(Request $request){
+
+      $pedagangCari = Pedagang::where('username', $request->username)
+      ->first();
+
+
+      $pedagang = Pedagang::find($request->id) ;
+
+      $hasil =  array( 'ada' => 0,
+      'username' => "");
+
+      if(($pedagangCari!=null) && ($pedagang!=null)){
+        $hasil = array( 'ada' => 1,
+        'username' => $pedagang->username);
+      } else if (($pedagangCari!=null) && ($pedagang==null)) {
+        $hasil = array( 'ada' => 1,
+        'username' => "");
 
       }
 
+
+      return json_encode($hasil);
+    }
   }

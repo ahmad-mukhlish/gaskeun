@@ -16,7 +16,7 @@
   <h1 class="judul"> Dibuat untuk <br> pemilik pedagang keliling. </h1>
   <h2 class="keterangan"> Aplikasi Pedagang Keliling Online dibuat untuk  <br>
                           memudahkan para pemilik dagangan keliling baik <br>
-                          secara operasional maupun manajeral. <br> <br>
+                          secara operasional maupun manajerial. <br> <br>
                           <i> Pendaftaran gratis. </i> </h2>
 
   <div class="container">

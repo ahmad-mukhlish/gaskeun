@@ -8,6 +8,20 @@
 	height: 350px;
 }
 
+.fixed {
+  position: fixed;
+  bottom: 30;
+  right: 30;
+
+}
+
+#toast-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 10%;
+  left:42%;
+}
+
 
 /* inline icon for label with icon  */
 .inline-icon {

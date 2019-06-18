@@ -10,7 +10,8 @@
 }
 
 #alamatnya {
-  max-width: 110%;
+  margin-left: 0px;
+  max-width: 92.3%;
 }
 
 .foto {
@@ -34,7 +35,7 @@
   left:42%;
 }
 
-#fileInput {
+#fileInput, #submit {
     display: block;
     visibility: hidden;
     width: 0;
@@ -49,6 +50,8 @@
   font-family: 'Roboto:300', sans-serif;
 
 }
+
+
 
 /* auto fit card image */
 .card-img {
