@@ -27,3 +27,5 @@ Route::post('/deletePedagangPost', 'WebController@deletePedagangPost');
 Route::post('/cekUsername', 'WebController@cekUsername');
 Route::get('/makanan', 'WebController@makanan');
 Route::get('/logout', 'WebController@logout');
+Route::get('/registerFireBase', 'FirebaseController@registerFireBase')->name('regFireBase');
+Route::post('/addPedagangFireBase', 'FirebaseController@registerFireBase')->name('addPdgFireBase');

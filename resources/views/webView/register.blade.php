@@ -42,7 +42,7 @@
         <input type="submit" value ="Daftar Sekarang">
         <br>
 
-
+s
 
       </form>
     </div>

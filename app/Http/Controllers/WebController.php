@@ -12,13 +12,8 @@ use App\model\Pedagang;
 use App\model\Pemilik;
 use App\Http\Requests;
 
-
-
-
 class WebController extends Controller
 {
-
-
 
   public function index()
   {
@@ -49,7 +44,14 @@ class WebController extends Controller
     public function dashboard(Request $request)
     {
       if ($request->session()->has('username')) {
-        return view('webView.dashboard')->with('nama',$request->session()->get('username'));
+
+        $listPedagang  = DB::table('tb_pedagang')
+            ->where('id_pemilik',$request->session()->get('id_pemilik'))
+            ->get();
+
+        return view('webView.dashboard')
+        ->with('nama',$request->session()->get('username'))
+        ->with('listPedagang',$listPedagang);
       }else{
         return redirect('/');
       }
@@ -116,7 +118,15 @@ class WebController extends Controller
       $pemilik->email = $request->email;
       $pemilik->password = $request->password;
       $pemilik->save();
-      return redirect('/');
+
+      $user = Pemilik::where('username', $request->username)
+      ->where('password', $request->password)
+      ->first();
+
+      return redirect()->route('regFireBase', ['id' => $user, 'username' => $user->username,
+      'email' => $user->email, 'password' => $user->password
+    ]);
+
     }
 
     public function logout(Request $request)
@@ -186,6 +196,13 @@ class WebController extends Controller
 
 
       $pedagang->save();
+
+      $pedagangNow = Pedagang::where('username', $request->username)
+      ->where('password', $request->password)
+      ->first();
+
+      return json_encode($pedagangNow->id_pedagang) ;
+  
 
     }
 

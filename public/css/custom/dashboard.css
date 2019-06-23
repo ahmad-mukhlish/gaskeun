@@ -1,0 +1,31 @@
+#map {
+  height: 60%;
+  width: 100%;
+}
+
+#tab {
+  height : 20%;
+}
+
+
+#card {
+  background-color: #E5F1F3;
+  min-width: 100%;
+  min-height: 120px;
+  margin-top: 36px;
+}
+
+#card {display: flex}
+.card--content {
+  min-width: 250px;
+  margin: 5px;
+  font-size: 20px;
+  text-align: center;
+  min-height: 1em;
+  color : #FFF;
+  font-family: 'Roboto:300', sans-serif;
+}
+
+#card {
+  overflow-x: auto;
+}

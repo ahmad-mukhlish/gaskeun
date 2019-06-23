@@ -1,4 +1,14 @@
 
+var firebaseConfig = {
+  apiKey: "AIzaSyBRRFMyIKXR31h-x-YXI7N3wyCsdiSe9ik",
+  authDomain: "pedagangkeliling99.firebaseapp.com",
+  databaseURL: "https://pedagangkeliling99.firebaseio.com",
+  projectId: "pedagangkeliling99",
+  storageBucket: "pedagangkeliling99.appspot.com",
+  messagingSenderId: "437659920533",
+  appId: "1:437659920533:web:4f56a3c0b2447655"
+};
+firebase.initializeApp(firebaseConfig);
 $(document).ready(function(){
 
   if($("#username").val().length != 0){
@@ -272,6 +282,7 @@ function addPedagang() {
   formdata.append("password",$("#password").val());
   formdata.append("id_pemilik",$("#id_pemilik").val());
 
+  var id ;
   $.ajax({
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -282,10 +293,43 @@ function addPedagang() {
     contentType: false,
     processData: false,
     success:function(data){
-      M.toast({html: 'Data Pedagang Telah Ditambahkan'});
-      window.location.replace($("#link").val());
+      var rootPemilik = firebase.database().ref().child("pmk"+$("#id_pemilik").val()).child("pdg"+data);
+      rootPemilik.set({
+        login : false,
+        keliling : false
+      });
+
+      addPedagangFirebase(data);
+
     }
 
   });
 
+}
+
+function addPedagangFirebase(id) {
+
+  var formdata2 = new FormData();
+  formdata2.append("email",$("#email").val());
+  formdata2.append("username",$("#username").val());
+  formdata2.append("password",$("#password").val());
+  formdata2.append("id_pemilik",$("#id_pemilik").val());
+  formdata2.append("id",id);
+
+  $.ajax({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    type:'POST',
+    url:"/addPedagangFireBase",
+    data : formdata2,
+    contentType: false,
+    processData: false,
+    success:function(data){
+
+      M.toast({html: 'Data Pedagang Telah Ditambahkan'});
+
+
+    }
+  });
 }
