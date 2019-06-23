@@ -32,8 +32,10 @@
       {{$pedagang->username}}
     </div>
     <input type="hidden" id="<?php echo "mark".$pedagang->id_pedagang?>" value="<?php echo color($count)?>">
-    @endforeach
+    <input type="hidden" id="<?php echo "icon".$count?>" value="{{asset('images/mark'.$count.'.png')}}">
+    <input type="hidden" id="<?php echo $pedagang->id_pedagang?>" value="{{$count}}">
 
+    @endforeach
 
 
   </section>
