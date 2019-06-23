@@ -87,10 +87,13 @@ class WebController extends Controller
         ->where('id_pemilik',$request->session()->get('id_pemilik'))
         ->get();
 
+
         return view('webView.pedagang')->
         with('nama',$request->session()->get('username'))->
         with('listPedagang',$listPedagang)
         ;
+
+
 
       }else{
         return redirect('/');
@@ -202,7 +205,7 @@ class WebController extends Controller
       ->first();
 
       return json_encode($pedagangNow->id_pedagang) ;
-  
+
 
     }
 

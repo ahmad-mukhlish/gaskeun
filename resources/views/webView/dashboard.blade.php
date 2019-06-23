@@ -2,6 +2,12 @@
 <head>
   <title> Dashboard </title>
 
+
+    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+
   <!-- custom css and js for this blade -->
   <link rel="stylesheet" type="text/css" href="{{url('css/custom/dashboard.css')}}">
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -14,17 +20,22 @@
   @section('content')
 
 
-
+  <input type="hidden" id="id_pemilik" value="{{Session::get('id_pemilik')}}"/>
   <div id="map"></div>
   <section id="card">
     <?php $count = 0 ?>
     @foreach($listPedagang as $pedagang)
-    <?php $count++ ?>
-    <div class="card--content z-depth-3" style="background-color:{{color($count)}}">
+    <?php $count++
+    ?>
+    <div class="card--content z-depth-3" id="<?php echo "kartu".$pedagang->id_pedagang?>">
       <br>
-      {{$pedagang->nama}}
+      {{$pedagang->username}}
     </div>
+    <input type="hidden" id="<?php echo "mark".$pedagang->id_pedagang?>" value="<?php echo color($count)?>">
     @endforeach
+
+
+
   </section>
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaYa3SZ4n5pYR3Q-Twzqd4lNPPzf4kzlM&callback=initMap">

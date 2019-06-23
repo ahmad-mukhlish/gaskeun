@@ -9,7 +9,13 @@ var firebaseConfig = {
   appId: "1:437659920533:web:4f56a3c0b2447655"
 };
 firebase.initializeApp(firebaseConfig);
+var rootPemilik;
+
 $(document).ready(function(){
+
+  rootPemilik = firebase.database().ref().child("pmk"+$("#id_pemilik").val());
+
+
 
   if($("#username").val().length != 0){
 
@@ -293,10 +299,12 @@ function addPedagang() {
     contentType: false,
     processData: false,
     success:function(data){
-      var rootPemilik = firebase.database().ref().child("pmk"+$("#id_pemilik").val()).child("pdg"+data);
-      rootPemilik.set({
+      var rootPedagang = rootPemilik.child("status").child("pdg"+data);
+      rootPedagang.set({
         login : false,
-        keliling : false
+        keliling : false,
+        username : $("#username").val(),
+        id : parseInt(data)
       });
 
       addPedagangFirebase(data);
@@ -327,7 +335,9 @@ function addPedagangFirebase(id) {
     processData: false,
     success:function(data){
 
+      window.location.replace($("#link").val());
       M.toast({html: 'Data Pedagang Telah Ditambahkan'});
+
 
 
     }
