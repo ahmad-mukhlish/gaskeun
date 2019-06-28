@@ -8,6 +8,7 @@ var firebaseConfig = {
   messagingSenderId: "437659920533",
   appId: "1:437659920533:web:4f56a3c0b2447655"
 };
+
 firebase.initializeApp(firebaseConfig);
 var rootPemilik;
 
@@ -236,13 +237,6 @@ $(document).ready(function(){
     }
 
   });
-
-
-
-
-
-
-
 });
 
 function readGambar(input) {
@@ -322,7 +316,7 @@ function addPedagangFirebase(id) {
   formdata2.append("username",$("#username").val());
   formdata2.append("password",$("#password").val());
   formdata2.append("id_pemilik",$("#id_pemilik").val());
-  formdata2.append("id",id);
+  formdata2.append("id_pedagang",id);
 
   $.ajax({
     headers: {

@@ -220,6 +220,4 @@ function dialog(id, nama){
 		}
 	}
 });
-	// });
-
 }

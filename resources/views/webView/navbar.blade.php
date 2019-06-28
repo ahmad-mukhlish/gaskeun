@@ -32,7 +32,7 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
 
         <li <?php if($title == "Dashboard") echo "class = active" ;  ?>>
-          <a href="{{url('/dashboard')}}">  Dashboard </a>
+          <a href="{{url('/')}}">  Dashboard </a>
         </li>
 
 
