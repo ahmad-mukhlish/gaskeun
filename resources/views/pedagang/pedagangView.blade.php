@@ -6,6 +6,9 @@
   <!-- meta crsf token for ajax post -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
+  <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
   <!-- custom css and js for this blade -->
   <link rel="stylesheet" type="text/css" href="{{url('css/custom/pedagang.css')}}">
@@ -62,7 +65,7 @@
                       </a>
                       <ul>
                         <li><a class="btn-floating blue" href="{{url('/editPedagang/'.$pedagang->id_pedagang)}}"><i class="material-icons">mode_edit</i></a></li>
-                        <li><a class="btn-floating red" onclick=" <?php echo "dialog(".$pedagang->id_pedagang.",'".$pedagang->nama."');"  ?>"><i class="material-icons">delete</i></a></li>
+                        <li><a class="btn-floating red" onclick=" <?php echo "dialogHapus(".$pedagang->id_pedagang.",'".$pedagang->nama."');"  ?>"><i class="material-icons">delete</i></a></li>
                       </ul>
 
                     </div>

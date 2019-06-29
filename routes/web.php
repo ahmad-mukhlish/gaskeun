@@ -31,6 +31,7 @@ Route::get('/editPedagang/{id}', 'PedagangController@editPedagang');
 Route::post('/editPedagangPost', 'PedagangController@editPedagangPost');
 Route::post('/deletePedagangPost', 'PedagangController@deletePedagangPost');
 Route::post('/cekUsername', 'PedagangController@cekUsername');
+Route::post('/cekEmail', 'PedagangController@cekEmail');
 
 
 

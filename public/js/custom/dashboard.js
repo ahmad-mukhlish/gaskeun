@@ -8,6 +8,9 @@ var firebaseConfig = {
   messagingSenderId: "437659920533",
   appId: "1:437659920533:web:4f56a3c0b2447655"
 };
+
+
+
 firebase.initializeApp(firebaseConfig);
 
 
@@ -99,6 +102,7 @@ $(document).ready(function(){
 
     } else if (data.val().login && !data.val().keliling) {
 
+      console.log("cukk");
       pesan = data.val().username + " sedang online, tidak berkeliling" ;
 
       $("#kartu"+data.val().id).show();

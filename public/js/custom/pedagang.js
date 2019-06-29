@@ -1,4 +1,16 @@
 
+var firebaseConfig = {
+  apiKey: "AIzaSyBRRFMyIKXR31h-x-YXI7N3wyCsdiSe9ik",
+  authDomain: "pedagangkeliling99.firebaseapp.com",
+  databaseURL: "https://pedagangkeliling99.firebaseio.com",
+  projectId: "pedagangkeliling99",
+  storageBucket: "pedagangkeliling99.appspot.com",
+  messagingSenderId: "437659920533",
+  appId: "1:437659920533:web:4f56a3c0b2447655"
+};
+
+firebase.initializeApp(firebaseConfig);
+
 var carouselSlideWidth = 335;
 
 
@@ -156,7 +168,7 @@ function next(id) {
 	pageCounter++ ;
 	$(page).val(pageCounter);
 	// $('div.carouselNext').hide();
-  }
+}
 
 }
 
@@ -183,41 +195,60 @@ function prev(id) {
 	pageCounter-- ;
 	$(page).val(pageCounter);
 	// $('div.carouselPrev').hide();
-	}
+}
 
 
 }
 
-function dialog(id, nama){
+function dialogHapus(id_pedagang, nama){
 
-	// $("#delete").click(function(){
-		new duDialog('Konfirmasi Hapus', 'Anda Yakin Menghapus Data '+ nama +'?', duDialog.OK_CANCEL, {
-	okText: 'Ya',
-	cancelText: 'Tidak',
-	callbacks: {
-		okClick: function(){
-			this.hide();
-			var formdata = new FormData();
-			formdata.append("id",id);
-			$.ajax({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				},
-				type:'POST',
-				url:"/deletePedagangPost",
-				data : formdata,
-				contentType: false,
-				processData: false,
-				success:function(data){
-					M.toast({html: 'Data pedagang dihapus, mereload halaman...'}) ;
-					location.reload();
-				}
-
-			});
-		},
-		cancelClick: function(){
+	new duDialog('Konfirmasi Hapus', 'Anda Yakin Menghapus Data '+ nama +'?', duDialog.OK_CANCEL, {
+		okText: 'Ya',
+		cancelText: 'Tidak',
+		callbacks: {
+			okClick: function(){
 				this.hide();
+				var formdata = new FormData();
+				formdata.append("id_pedagang",id_pedagang);
+				$.ajax({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					},
+					type:'POST',
+					url:"/deletePedagangPost",
+					data : formdata,
+					contentType: false,
+					processData: false,
+					success:function(data){
+						M.toast({html: 'Data pedagang dihapus, mereload halaman...'}) ;
+					  var pedagang = jQuery.parseJSON(data);
+						deletePedagangRealTimeFirebase(pedagang);
+						console.log(pedagang);
+
+					}
+
+				});
+			},
+			cancelClick: function(){
+				this.hide();
+			}
 		}
-	}
-});
+	});
+}
+
+function deletePedagangRealTimeFirebase(pedagang) {
+
+  var rootPemilik = firebase.database().ref().child("pmk"+pedagang.id_pemilik);
+
+	var rootPedagangLokasi = rootPemilik.child("lokasi").child("pdg"+pedagang.id_pedagang);
+	rootPedagangLokasi.remove();
+
+	var rootPedagangStatus = rootPemilik.child("status").child("pdg"+pedagang.id_pedagang);
+	rootPedagangStatus.remove().then(function() {
+			location.reload();
+	})
+	.catch(function(error) {
+	});
+
+
 }

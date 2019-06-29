@@ -10,108 +10,38 @@ var firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-var rootPemilik;
 
 $(document).ready(function(){
 
-  rootPemilik = firebase.database().ref().child("pmk"+$("#id_pemilik").val());
 
 
-
-  if($("#username").val().length != 0){
-
-    var formdata = new FormData();
-    formdata.append("username",$("#username").val());
-    formdata.append("id",$("#idPedagang").val());
-
-
-    $.ajax({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      type:'POST',
-      url:"/cekUsername",
-      data : formdata,
-      contentType: false,
-      processData: false,
-      success:function(data){
-        var json = jQuery.parseJSON(data);
-        if ((json.ada == 1)) {
-          $("#username").removeClass("valid").addClass("invalid");
-        }
-        else {
-          $("#username").removeClass("invalid").addClass("valid");
-        }
-      }
-
-    });
-
-
+  if($("#username").val().length != 0) {
+    ajaxCekUserName($("#username").val()) ;
   }
+
+  if($("#email").val().length != 0) {
+    ajaxCekEmail($("#email").val()) ;
+  }
+
 
   $("#upload").click(function(){
     $("#fileInput").click();
   });
 
   $("#username").on("focusout", function (e) {
-
-    var formdata = new FormData();
-    formdata.append("username",$("#username").val());
-    formdata.append("id",$("#idPedagang").val());
-
-
-    $.ajax({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      type:'POST',
-      url:"/cekUsername",
-      data : formdata,
-      contentType: false,
-      processData: false,
-      success:function(data){
-        var json = jQuery.parseJSON(data);
-        if ((json.ada == 1)) {
-          $("#username").removeClass("valid").addClass("invalid");
-        }
-        else {
-          $("#username").removeClass("invalid").addClass("valid");
-        }
-      }
-
-    });
-
-  });
-
+    ajaxCekUserName($("#username").val()) ;
+  }) ;
 
   $("#username").on("keyup", function (e) {
+    ajaxCekUserName($("#username").val()) ;
+  });
 
-    var formdata = new FormData();
-    formdata.append("username",$("#username").val());
-    formdata.append("id",$("#idPedagang").val());
+  $("#email").on("focusout", function (e) {
+    ajaxCekEmail($("#email").val()) ;
+  });
 
-
-    $.ajax({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      type:'POST',
-      url:"/cekUsername",
-      data : formdata,
-      contentType: false,
-      processData: false,
-      success:function(data){
-        var json = jQuery.parseJSON(data);
-        if ((json.ada == 1)) {
-          $("#username").removeClass("valid").addClass("invalid");
-        }
-        else {
-          $("#username").removeClass("invalid").addClass("valid");
-        }
-      }
-
-    });
-
+  $("#email").on("keyup", function (e) {
+    ajaxCekEmail($("#email").val()) ;
   });
 
   $("#password").on("focusout", function (e) {
@@ -178,6 +108,7 @@ $(document).ready(function(){
   });
 
   $("#passwordConfirm").on("focusin", function (e) {
+
     if ($("#password").val() != $(this).val())  {
       $(this).removeClass("valid").addClass("invalid");
       $("#text-confirm").attr("data-error","Password tidak cocok");
@@ -188,6 +119,9 @@ $(document).ready(function(){
     else {
       $(this).removeClass("invalid").addClass("valid");
     }
+
+
+
   });
 
   $("#passwordConfirm").on("focusout", function (e) {
@@ -203,16 +137,20 @@ $(document).ready(function(){
   });
 
 
-  //when FAB with a tag clicked, do :
 
   $("#save").click(function(){
 
     if ($("#password").hasClass("valid") && $("#passwordConfirm").hasClass("valid")
     && $("#username").hasClass("valid")){
-      addPedagang();
-    }   else if ($("#username").hasClass("invalid")){
+      ajaxAddPedagang();
+    }
+    else if ($("#username").hasClass("invalid")){
       M.toast({html: 'Username belum valid'}) ;
-    } else {
+    }
+    else if ($("#email").hasClass("invalid")){
+      M.toast({html: 'Email belum valid'}) ;
+    }
+    else {
 
       if ($("#nama").val().length !=0 && $("#no_telp").val().length !=0
       && $("#email").val().length !=0 && $("#jenis").val().length !=0
@@ -229,7 +167,7 @@ $(document).ready(function(){
         }
       }
 
-      else{
+      else {
         $("#submit").click();
         M.toast({html: 'Silakan Isi Data'}) ;
       }
@@ -238,6 +176,89 @@ $(document).ready(function(){
 
   });
 });
+
+
+function ajaxCekUserName(username) {
+
+  if($("#username").val().length != 0){
+
+    var formdata = new FormData();
+    formdata.append("username",username);
+
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      type:'POST',
+      url:"/cekUsername",
+      data : formdata,
+      contentType: false,
+      processData: false,
+      success:function(data){
+        var response = jQuery.parseJSON(data);
+        if ((response.ada)) {
+          $("#username").removeClass("valid").addClass("invalid");
+        }
+        else {
+          $("#username").removeClass("invalid").addClass("valid");
+        }
+      }
+
+    });
+
+
+  }
+
+  else {
+    $("#username").removeClass("valid").addClass("invalid");
+    $("#text-username").attr("data-error","Username Tidak Boleh Kosong");
+  }
+
+}
+
+function ajaxCekEmail(email) {
+
+  if($("#email").val().length != 0){
+
+    var formdata = new FormData();
+    formdata.append("email",email);
+
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      type:'POST',
+      url:"/cekEmail",
+      data : formdata,
+      contentType: false,
+      processData: false,
+      success:function(data){
+        var response = jQuery.parseJSON(data);
+        if ((response.ada)) {
+          $("#email").removeClass("valid").addClass("invalid");
+          $("#text-email").attr("data-error","Email Telah Digunakan");
+
+        }
+        else {
+          $("#email").removeClass("invalid").addClass("valid");
+        }
+      }
+
+    });
+
+
+  }
+
+  else {
+
+    $("#email").removeClass("valid").addClass("invalid");
+    $("#text-email").attr("data-error","Email Tidak Boleh Kosong");
+
+  }
+
+}
 
 function readGambar(input) {
   var file = input.files[0];
@@ -268,7 +289,7 @@ function readGambar(input) {
 
 }
 
-function addPedagang() {
+function ajaxAddPedagang() {
 
 
   var formdata = new FormData();
@@ -293,15 +314,10 @@ function addPedagang() {
     contentType: false,
     processData: false,
     success:function(data){
-      var rootPedagang = rootPemilik.child("status").child("pdg"+data);
-      rootPedagang.set({
-        login : false,
-        keliling : false,
-        username : $("#username").val(),
-        id : parseInt(data)
-      });
-
-      addPedagangFirebase(data);
+      M.toast({html: 'Data Pedagang Telah Ditambahkan'});
+      var pedagang = jQuery.parseJSON(data);
+      addPedagangRealTimeFirebase(pedagang);
+      ajaxAddPedagangFirebase(pedagang);
 
     }
 
@@ -309,14 +325,14 @@ function addPedagang() {
 
 }
 
-function addPedagangFirebase(id) {
+function ajaxAddPedagangFirebase(pedagang) {
 
   var formdata2 = new FormData();
-  formdata2.append("email",$("#email").val());
-  formdata2.append("username",$("#username").val());
-  formdata2.append("password",$("#password").val());
-  formdata2.append("id_pemilik",$("#id_pemilik").val());
-  formdata2.append("id_pedagang",id);
+  formdata2.append("id_pedagang",pedagang.id_pedagang);
+  formdata2.append("email",pedagang.email);
+  formdata2.append("username",pedagang.username);
+  formdata2.append("password",pedagang.password);
+  formdata2.append("id_pemilik",pedagang.id_pemilik);
 
   $.ajax({
     headers: {
@@ -330,10 +346,22 @@ function addPedagangFirebase(id) {
     success:function(data){
 
       window.location.replace($("#link").val());
-      M.toast({html: 'Data Pedagang Telah Ditambahkan'});
 
 
 
     }
   });
+}
+
+function addPedagangRealTimeFirebase(pedagang) {
+
+  var rootPemilik = firebase.database().ref().child("pmk"+pedagang.id_pemilik);
+  var rootPedagang = rootPemilik.child("status").child("pdg"+pedagang.id_pedagang);
+  rootPedagang.set({
+    login : false,
+    keliling : false,
+    username : pedagang.username,
+    id : parseInt(pedagang.id_pedagang)
+  });
+
 }

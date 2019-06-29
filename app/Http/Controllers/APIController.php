@@ -27,10 +27,7 @@ class APIController extends Controller
     $hasil ;
 
     if ($user==null) {
-
       $hasil = array('nama' => "Password Salah") ;
-
-
     } else {
       $hasil = $user ;
     }

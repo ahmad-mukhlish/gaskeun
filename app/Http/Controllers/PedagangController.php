@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Auth ;
 
-
 use App\model\Pemilik;
+use App\model\Pedagang;
 use App\Http\Requests;
 
-class ProfilController extends Controller
+class PedagangController extends Controller
 {
 
   public function index(Request $request)
@@ -22,19 +22,20 @@ class ProfilController extends Controller
       ->where('id_pemilik',$request->session()->get('id_pemilik'))
       ->get();
 
-      return view('pedagang.pedagang')->
+      return view('pedagang.pedagangView')->
       with('nama',$request->session()->get('username'))->
       with('listPedagang',$listPedagang);
 
-    }else{
+    } else {
       return redirect('/');
     }
+
   }
 
   public function addPedagang(Request $request)
   {
     if ($request->session()->has('username')) {
-      return view('pedagang.addPedagang')->with('nama',$request->session()->get('username'));
+      return view('pedagang.addPedagangView')->with('nama',$request->session()->get('username'));
     }else{
       return redirect('/');
     }
@@ -45,17 +46,39 @@ class ProfilController extends Controller
     $pedagangCari = Pedagang::where('username', $request->username)
     ->first();
 
-    $pedagang = Pedagang::find($request->id) ;
+    $pedagangNow = Pedagang::find($request->id_pedagang) ;
 
-    $hasil =  array( 'ada' => 0,
+    $hasil =  array( 'ada' => false,
     'username' => "");
 
-    if(($pedagangCari!=null) && ($pedagang!=null)){
-      $hasil = array( 'ada' => 1,
-      'username' => $pedagang->username);
-    } else if (($pedagangCari!=null) && ($pedagang==null)) {
-      $hasil = array( 'ada' => 1,
+    if(($pedagangCari!=null) && ($pedagangNow!=null)){
+      $hasil = array( 'ada' => true,
+      'username' => $pedagangNow->username);
+    } else if (($pedagangCari!=null) && ($pedagangNow==null)) {
+      $hasil = array( 'ada' => true,
       'username' => "");
+
+    }
+    return json_encode($hasil);
+  }
+
+
+  public function cekEmail(Request $request){
+
+    $pedagangCari = Pedagang::where('email', $request->email)
+    ->first();
+
+    $pedagangNow = Pedagang::find($request->id_pedagang) ;
+
+    $hasil =  array( 'ada' => false,
+    'email' => "");
+
+    if(($pedagangCari!=null) && ($pedagangNow!=null)){
+      $hasil = array( 'ada' => true,
+      'email' => $pedagangNow->email);
+    } else if (($pedagangCari!=null) && ($pedagangNow==null)) {
+      $hasil = array( 'ada' => true,
+      'email' => "");
 
     }
     return json_encode($hasil);
@@ -89,7 +112,7 @@ class ProfilController extends Controller
     ->where('password', $request->password)
     ->first();
 
-    return json_encode($pedagangNow->id_pedagang) ;
+    return json_encode($pedagangNow) ;
 
   }
 
@@ -99,7 +122,7 @@ class ProfilController extends Controller
 
       $pedagang = Pedagang::find($request->id) ;
 
-      return view('webView.editPedagang')
+      return view('pedagang.editPedagangView')
       ->with('nama',$request->session()->get('username'))
       ->with('namaPedagang',$pedagang->nama)
       ->with('no_telp',$pedagang->no_telp)
@@ -139,12 +162,16 @@ class ProfilController extends Controller
 
     $pedagang->save();
 
+    return json_encode($pedagang);
+
   }
 
   public function deletePedagangPost(Request $request){
-    $pedagang = Pedagang::find($request->id) ;
+    $pedagang = Pedagang::find($request->id_pedagang) ;
     Storage::disk('uploads')->delete('storage/pedagang-profiles/'.$pedagang->foto);
-    $hapus = Pedagang::where('id_pedagang',$request->id)->delete();
+    $hapus = Pedagang::where('id_pedagang',$request->id_pedagang)->delete();
+
+    return json_encode($pedagang);
   }
 
 
