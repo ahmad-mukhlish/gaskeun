@@ -25,7 +25,7 @@ class PemilikController extends Controller
       ->where('id_pemilik',$request->session()->get('id_pemilik'))
       ->get();
 
-      return view('pemilik.dashboardView')
+      return view('pemilik.DashboardView')
       ->with('nama',$request->session()->get('username'))
       ->with('listPedagang',$listPedagang);
 

@@ -23,7 +23,7 @@ class ProfilController extends Controller
 
       $user = PemilikModel::find($request->session()->get('id_pemilik'));
 
-      return view('pemilik.profilView')->
+      return view('pemilik.ProfilView')->
       with('nama',$user->username)->
       with('namaLengkap',$user->nama)->
       with('no_telp',$user->no_telp)->

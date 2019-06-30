@@ -24,7 +24,7 @@ class PedagangController extends Controller
       ->where('id_pemilik',$request->session()->get('id_pemilik'))
       ->get();
 
-      return view('pedagang.pedagangView')->
+      return view('pedagang.PedagangView')->
       with('nama',$request->session()->get('username'))->
       with('listPedagang',$listPedagang);
 
@@ -37,7 +37,7 @@ class PedagangController extends Controller
   public function addPedagang(Request $request)
   {
     if ($request->session()->has('username')) {
-      return view('pedagang.addPedagangView')->with('nama',$request->session()->get('username'));
+      return view('pedagang.AddPedagangView')->with('nama',$request->session()->get('username'));
     }else{
       return redirect('/');
     }
@@ -123,7 +123,7 @@ class PedagangController extends Controller
 
       $pedagang = PedagangModel::find($request->id) ;
 
-      return view('pedagang.editPedagangView')
+      return view('pedagang.EditPedagangView')
       ->with('nama',$request->session()->get('username'))
       ->with('namaPedagang',$pedagang->nama)
       ->with('no_telp',$pedagang->no_telp)

@@ -19,7 +19,7 @@ class RegisterController extends Controller
 
   public function index()
   {
-    return view('authorization.registerView');
+    return view('authorization.RegisterView');
   }
 
   public function registerPost(Request $request)

@@ -20,7 +20,7 @@ class MakananController extends Controller
   public function index(Request $request)
   {
     if ($request->session()->has('username')) {
-      return view('makanan.makananView')->with('nama',$request->session()->get('username'));
+      return view('makanan.MakananView')->with('nama',$request->session()->get('username'));
     }else{
       return redirect('/');
     }

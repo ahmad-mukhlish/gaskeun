@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  @extends('webView/navbar',  ['nama' => $nama], ['title' => 'Dashboard'])
+  @extends('webView/Navbar',  ['nama' => $nama], ['title' => 'Dashboard'])
   @section('content')
 
 

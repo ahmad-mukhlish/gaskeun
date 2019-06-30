@@ -18,7 +18,7 @@
 
 </head>
 <body>
-  @extends('webView/navbar',  ['nama' => $nama], ['title' => 'Edit Data Pedagang'])
+  @extends('webView/Navbar',  ['nama' => $nama], ['title' => 'Edit Data Pedagang'])
   @section('content')
 
   <div class="isi">

@@ -5,7 +5,7 @@
 
 </head>
 <body>
-  @extends('webView/navbar',  ['nama' => $nama], ['title' => 'Makanan'])
+  @extends('webView/Navbar',  ['nama' => $nama], ['title' => 'Makanan'])
   @section('content')
 
   @endsection
