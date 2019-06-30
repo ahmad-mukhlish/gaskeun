@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Auth ;
 
-use App\model\Pemilik;
-use App\model\Pedagang;
+use App\model\PemilikModel;
+use App\model\PedagangModel;
+
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 class PedagangController extends Controller
 {
@@ -43,10 +45,10 @@ class PedagangController extends Controller
 
   public function cekUsername(Request $request){
 
-    $pedagangCari = Pedagang::where('username', $request->username)
+    $pedagangCari = PedagangModel::where('username', $request->username)
     ->first();
 
-    $pedagangNow = Pedagang::find($request->id_pedagang) ;
+    $pedagangNow = PedagangModel::find($request->id_pedagang) ;
 
     $hasil =  array( 'ada' => false,
     'username' => "");
@@ -65,10 +67,10 @@ class PedagangController extends Controller
 
   public function cekEmail(Request $request){
 
-    $pedagangCari = Pedagang::where('email', $request->email)
+    $pedagangCari = PedagangModel::where('email', $request->email)
     ->first();
 
-    $pedagangNow = Pedagang::find($request->id_pedagang) ;
+    $pedagangNow = PedagangModel::find($request->id_pedagang) ;
 
     $hasil =  array( 'ada' => false,
     'email' => "");
@@ -87,11 +89,10 @@ class PedagangController extends Controller
   public function addPedagangPost(Request $request)
   {
 
-    $pedagang = new Pedagang;
+    $pedagang = new PedagangModel;
     $pedagang->nama = $request->nama;
     $pedagang->no_telp = $request->no_telp;
     $pedagang->email = $request->email;
-    $pedagang->jenis = $request->jenis;
     $pedagang->alamat = $request->alamat;
     $pedagang->username = $request->username;
     $pedagang->password = $request->password;
@@ -108,7 +109,7 @@ class PedagangController extends Controller
 
     $pedagang->save();
 
-    $pedagangNow = Pedagang::where('username', $request->username)
+    $pedagangNow = PedagangModel::where('username', $request->username)
     ->where('password', $request->password)
     ->first();
 
@@ -120,14 +121,13 @@ class PedagangController extends Controller
   {
     if ($request->session()->has('username')) {
 
-      $pedagang = Pedagang::find($request->id) ;
+      $pedagang = PedagangModel::find($request->id) ;
 
       return view('pedagang.editPedagangView')
       ->with('nama',$request->session()->get('username'))
       ->with('namaPedagang',$pedagang->nama)
       ->with('no_telp',$pedagang->no_telp)
       ->with('email',$pedagang->email)
-      ->with('jenis',$pedagang->jenis)
       ->with('alamat',$pedagang->alamat)
       ->with('username',$pedagang->username)
       ->with('password',$pedagang->password)
@@ -142,7 +142,7 @@ class PedagangController extends Controller
   public function editPedagangPost(Request $request)
   {
 
-    $pedagang = Pedagang::find($request->id);
+    $pedagang = PedagangModel::find($request->id);
 
     if ($request->file('gambar')!=null) {
       $fotoname = 'foto' . time() . '.png';
@@ -155,7 +155,6 @@ class PedagangController extends Controller
     $pedagang->nama = $request->nama;
     $pedagang->no_telp = $request->no_telp;
     $pedagang->email = $request->email;
-    $pedagang->jenis = $request->jenis;
     $pedagang->alamat = $request->alamat;
     $pedagang->username = $request->username;
     $pedagang->password = $request->password;
@@ -167,9 +166,9 @@ class PedagangController extends Controller
   }
 
   public function deletePedagangPost(Request $request){
-    $pedagang = Pedagang::find($request->id_pedagang) ;
+    $pedagang = PedagangModel::find($request->id_pedagang) ;
     Storage::disk('uploads')->delete('storage/pedagang-profiles/'.$pedagang->foto);
-    $hapus = Pedagang::where('id_pedagang',$request->id_pedagang)->delete();
+    $hapus = PedagangModel::where('id_pedagang',$request->id_pedagang)->delete();
 
     return json_encode($pedagang);
   }

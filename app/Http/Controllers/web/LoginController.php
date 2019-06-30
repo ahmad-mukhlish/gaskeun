@@ -1,13 +1,15 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Auth ;
 
-use App\model\Pemilik;
+use App\model\PemilikModel;
+
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {
@@ -23,7 +25,7 @@ class LoginController extends Controller
     $username = $request->username;
     $password = $request->password;
 
-    $user = Pemilik::where('username', $username)
+    $user = PemilikModel::where('username', $username)
     ->where('password', $password)
     ->first();
 

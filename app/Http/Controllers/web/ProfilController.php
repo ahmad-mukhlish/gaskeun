@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
 
 use Illuminate\Http\Request;
@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Storage;
 use Auth ;
 
 
-use App\model\Pemilik;
-use App\Http\Requests;
+use App\model\PemilikModel;
+
+use App\Http\RequestsModel;
+use App\Http\Controllers\Controller;
 
 class ProfilController extends Controller
 {
@@ -19,9 +21,9 @@ class ProfilController extends Controller
   {
     if ($request->session()->has('username')) {
 
-      $user = Pemilik::find($request->session()->get('id_pemilik'));
+      $user = PemilikModel::find($request->session()->get('id_pemilik'));
 
-      return view('webView.profilView')->
+      return view('pemilik.profilView')->
       with('nama',$user->username)->
       with('namaLengkap',$user->nama)->
       with('no_telp',$user->no_telp)->
@@ -40,7 +42,7 @@ class ProfilController extends Controller
   public function profilPost(Request $request)
   {
 
-    $user = Pemilik::find($request->session()->get('id_pemilik'));
+    $user = PemilikModel::find($request->session()->get('id_pemilik'));
 
     if ($request->file('gambar')!=null) {
       $fotoname = 'foto' . time() . '.png';

@@ -89,12 +89,6 @@
           <label for="email">Email</label>
         </div>
 
-        <div class="input-field col s8">
-          <i class="material-icons prefix">business_center</i>
-          <input id="jenis" type="text" class="validate" required name="jenis" value="{{$jenis}}">
-          <span class="helper-text" data-error="Jenis Usaha Harus Diisi"></span>
-          <label for="jenis">Jenis Usaha Dagang </label>
-        </div>
 
         <div class="input-field col s12">
           <i class="material-icons prefix">edit_location</i>

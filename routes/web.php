@@ -10,30 +10,30 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'PemilikController@index');
-Route::get('/logout', 'PemilikController@logout');
+Route::get('/', 'web\PemilikController@index');
+Route::get('/logout', 'web\PemilikController@logout');
 
-Route::get('/login', 'LoginController@index');
-Route::post('/loginPost', 'LoginController@loginPost');
+Route::get('/login', 'web\LoginController@index');
+Route::post('/loginPost', 'web\LoginController@loginPost');
 
-Route::get('/register', 'RegisterController@index');
-Route::post('/registerPost', 'RegisterController@registerPost');
+Route::get('/register', 'web\RegisterController@index');
+Route::post('/registerPost', 'web\RegisterController@registerPost');
 
-Route::get('/profil', 'ProfilController@index');
-Route::post('/profilPost', 'ProfilController@profilPost');
+Route::get('/profil', 'web\ProfilController@index');
+Route::post('/profilPost', 'web\ProfilController@profilPost');
 
-Route::get('/pedagang', 'PedagangController@index');
-Route::get('/addPedagang', 'PedagangController@addPedagang');
-Route::post('/addPedagangPost', 'PedagangController@addPedagangPost');
-Route::get('/editPedagang/{id}', 'PedagangController@editPedagang');
-Route::post('/editPedagangPost', 'PedagangController@editPedagangPost');
-Route::post('/deletePedagangPost', 'PedagangController@deletePedagangPost');
-Route::post('/cekUsername', 'PedagangController@cekUsername');
-Route::post('/cekEmail', 'PedagangController@cekEmail');
+Route::get('/pedagang', 'web\PedagangController@index');
+Route::get('/addPedagang', 'web\PedagangController@addPedagang');
+Route::post('/addPedagangPost', 'web\PedagangController@addPedagangPost');
+Route::get('/editPedagang/{id}', 'web\PedagangController@editPedagang');
+Route::post('/editPedagangPost', 'web\PedagangController@editPedagangPost');
+Route::post('/deletePedagangPost', 'web\PedagangController@deletePedagangPost');
+Route::post('/cekUsername', 'web\PedagangController@cekUsername');
+Route::post('/cekEmail', 'web\PedagangController@cekEmail');
 
-Route::get('/makanan', 'MakananController@index');
+Route::get('/makanan', 'web\MakananController@index');
 
 Route::post('/registerFireBase', 'firebase\FirebaseController@registerFireBase');
 Route::post('/addPedagangFireBase', 'firebase\FirebaseController@addPedagangFireBase');
 
-Route::post('/loginAPI', 'APIController@loginAPI');
+Route::post('/api/pedagang/login', 'api\pedagang\APIPedagangController@login');

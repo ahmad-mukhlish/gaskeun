@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
 
 use Illuminate\Http\Request;
@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Auth ;
 
-use App\model\Pedagang;
-use App\model\Pemilik;
+use App\model\PedagangModel;
+use App\model\PemilikModel;
+
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 class PemilikController extends Controller
 {

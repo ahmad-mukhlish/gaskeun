@@ -56,7 +56,6 @@
                   <span class="product_price">$39</span>
                   <span class="product_name">{{$pedagang->nama}}</span>
                   <div class="product-options">
-                    <strong>Pedagang {{$pedagang->jenis}}</strong> <br> <br>
                     Nomor telepon : <br>
                     <strong>{{$pedagang->no_telp}}</strong>
                     <div class="fixed-action-btn" id="<?php echo "fixed-action-btn".$pedagang->id_pedagang?>">
@@ -91,7 +90,6 @@
                       <p> <i class="inline-icon material-icons"> email </i>&nbsp;&nbsp;{{$pedagang->email}} </p>
                       <p> <i class="inline-icon material-icons"> phone </i>&nbsp;&nbsp;{{$pedagang->no_telp}} </p>
                       <p> <i class="inline-icon material-icons"> home </i>&nbsp;&nbsp;{{$pedagang->alamat}} </p>
-                      <p> <i class="inline-icon material-icons"> business_center </i>&nbsp;&nbsp;Pedagang {{$pedagang->jenis}} </p>
                     </div>
                   </li>
                   <li>

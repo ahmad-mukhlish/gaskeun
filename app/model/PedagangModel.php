@@ -4,7 +4,7 @@ namespace App\model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pedagang extends Model
+class PedagangModel extends Model
 {
 	protected $table = "tb_pedagang";
   public $timestamps = false;

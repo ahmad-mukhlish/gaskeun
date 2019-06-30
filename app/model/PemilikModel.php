@@ -4,7 +4,7 @@ namespace App\model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pemilik extends Model
+class PemilikModel extends Model
 {
 
 	protected $table = "tb_pemilik";

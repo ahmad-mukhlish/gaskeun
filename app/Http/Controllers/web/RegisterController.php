@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Controller;
 use Auth ;
 
 
-use App\model\Pemilik;
-use App\Http\Requests;
+use App\model\PemilikModel;
+
+use App\Http\RequestsModel;
+use App\Http\Controllers\Controller;
+
 
 class RegisterController extends Controller
 {
@@ -23,10 +25,10 @@ class RegisterController extends Controller
   public function registerPost(Request $request)
   {
 
-    $pemilikCariUsername = Pemilik::where('username', $request->username)
+    $pemilikCariUsername = PemilikModel::where('username', $request->username)
     ->first();
 
-    $pemilikCariEmail = Pemilik::where('email', $request->email)
+    $pemilikCariEmail = PemilikModel::where('email', $request->email)
     ->first();
 
 
@@ -47,13 +49,13 @@ class RegisterController extends Controller
 
     }
       else {
-        $pemilik = new Pemilik;
+        $pemilik = new PemilikModel;
         $pemilik->username = $request->username;
         $pemilik->email = $request->email;
         $pemilik->password = $request->password;
         $pemilik->save();
 
-        $user = Pemilik::where('username', $request->username)
+        $user = PemilikModel::where('username', $request->username)
         ->where('password', $request->password)
         ->first();
 
