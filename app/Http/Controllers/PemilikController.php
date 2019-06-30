@@ -12,7 +12,7 @@ use App\model\Pedagang;
 use App\model\Pemilik;
 use App\Http\Requests;
 
-class DashboardController extends Controller
+class PemilikController extends Controller
 {
 
   public function index(Request $request)
@@ -23,7 +23,7 @@ class DashboardController extends Controller
       ->where('id_pemilik',$request->session()->get('id_pemilik'))
       ->get();
 
-      return view('webView.dashboard')
+      return view('pemilik.dashboardView')
       ->with('nama',$request->session()->get('username'))
       ->with('listPedagang',$listPedagang);
 
