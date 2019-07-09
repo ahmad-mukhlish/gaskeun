@@ -143,7 +143,7 @@ $(document).ready(function(){
 
     if ($("#password").hasClass("valid") && $("#passwordConfirm").hasClass("valid")
     && $("#username").hasClass("valid") && $("#email").hasClass("valid")){
-      ajaxEditPedagang();
+      ajaxEditPedagangPost();
     } else if ($("#username").hasClass("invalid")){
       M.toast({html: 'Username belum valid'}) ;
     } else if ($("#email").hasClass("invalid")){
@@ -290,7 +290,7 @@ function ajaxCekEmail(email, id_pedagang) {
 
 }
 
-function ajaxEditPedagang() {
+function ajaxEditPedagangPost() {
 
 
   var formdata = new FormData();
@@ -302,7 +302,7 @@ function ajaxEditPedagang() {
   formdata.append("alamat",$("#alamat").val());
   formdata.append("username",$("#username").val());
   formdata.append("password",$("#password").val());
-  formdata.append("id",$("#idPedagang").val());
+  formdata.append("id_pedagang",$("#idPedagang").val());
 
   $.ajax({
     headers: {
@@ -325,7 +325,7 @@ function ajaxEditPedagang() {
 
 function editPedagangRealTimeFirebase(pedagang) {
 
-  var rootPemilik = firebase.database().ref().child("pmk"+pedagang.id_pemilik);
+  var rootPemilik = firebase.database().ref().child("pemilik").child("pmk"+pedagang.id_pemilik);
   var rootPedagang = rootPemilik.child("status").child("pdg"+pedagang.id_pedagang);
   rootPedagang.update({
     login : false,

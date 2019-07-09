@@ -25,7 +25,7 @@ Route::post('/profilPost', 'web\ProfilController@profilPost');
 Route::get('/pedagang', 'web\PedagangController@index');
 Route::get('/addPedagang', 'web\PedagangController@addPedagang');
 Route::post('/addPedagangPost', 'web\PedagangController@addPedagangPost');
-Route::get('/editPedagang/{id}', 'web\PedagangController@editPedagang');
+Route::get('/editPedagang/{id_pedagang}', 'web\PedagangController@editPedagang');
 Route::post('/editPedagangPost', 'web\PedagangController@editPedagangPost');
 Route::post('/deletePedagangPost', 'web\PedagangController@deletePedagangPost');
 Route::post('/cekUsername', 'web\PedagangController@cekUsername');
@@ -33,7 +33,14 @@ Route::post('/cekEmail', 'web\PedagangController@cekEmail');
 
 Route::get('/makanan', 'web\MakananController@index');
 
+
+Route::get('/bahan', 'web\BahanController@index');
+
 Route::post('/registerFireBase', 'firebase\FirebaseController@registerFireBase');
 Route::post('/addPedagangFireBase', 'firebase\FirebaseController@addPedagangFireBase');
 
 Route::post('/api/pedagang/login', 'api\pedagang\APIPedagangController@login');
+
+Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
+Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');
+Route::get('/api/pembeli/makananPedagangGet/{id_pedagang}', 'api\pembeli\APIPembeliController@makananPedagangGet');

@@ -35,6 +35,15 @@ class PemilikController extends Controller
   }
 
 
+  public function getRekomendasiBahan() {
+
+  }
+
+  public function getLaporanPenjualan() {
+    
+  }
+
+
   public function logout(Request $request)
   {
     Auth::logout();
@@ -44,5 +53,7 @@ class PemilikController extends Controller
 
     return redirect ('/');
   }
+
+
 
 }

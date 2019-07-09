@@ -46,16 +46,26 @@
           <div class="product-card" id="<?php echo "product-card".$pedagang->id_pedagang?>">
             <div class="product-front" id="<?php echo "product-front".$pedagang->id_pedagang?>">
               <div class="shadow" id="<?php echo "shadow".$pedagang->id_pedagang?>"></div>
-              <div class="card-img" style="background-image:url('{{asset('storage/pedagang-profiles/'.$pedagang->foto)}}')"/></div>
+              <?php
+
+              $url = 'images/placeholder.jpg' ;
+
+              if($pedagang->foto != null) {
+
+                $url = "storage/pedagang-profiles/".$pedagang->foto ;
+
+              }
+              ?>
+              <div class="card-img" style="background-image:url('{{asset($url)}}')"/></div>
               <div class="image_overlay"></div>
               <div class="view_details" onclick=" <?php echo "flip(".$pedagang->id_pedagang.");"  ?>">
                 Detail {{$pedagang->nama}}
               </div>
               <div class="stats">
                 <div class="stats-container">
-                  <span class="product_price">$39</span>
                   <span class="product_name">{{$pedagang->nama}}</span>
                   <div class="product-options">
+                  <strong>Pedagang {{$pedagang->jenis}}</strong> <br> <br>
                     Nomor telepon : <br>
                     <strong>{{$pedagang->no_telp}}</strong>
                     <div class="fixed-action-btn" id="<?php echo "fixed-action-btn".$pedagang->id_pedagang?>">
@@ -64,7 +74,7 @@
                       </a>
                       <ul>
                         <li><a class="btn-floating blue" href="{{url('/editPedagang/'.$pedagang->id_pedagang)}}"><i class="material-icons">mode_edit</i></a></li>
-                        <li><a class="btn-floating red" onclick=" <?php echo "dialogHapus(".$pedagang->id_pedagang.",'".$pedagang->nama."');"  ?>"><i class="material-icons">delete</i></a></li>
+                        <li><a class="btn-floating red" onclick=" <?php echo "dialogHapusPedagang(".$pedagang->id_pedagang.",'".$pedagang->nama."');"  ?>"><i class="material-icons">delete</i></a></li>
                       </ul>
 
                     </div>
@@ -84,7 +94,14 @@
 
                 <ul>
                   <li>
-
+                    <div class="back-content">
+                          <b> Dagangan {{$pedagang->jenis}} </b>
+                          @foreach($pedagang->listDagangan as $dagangan)
+                          <p> {{$dagangan->nama}} </p>
+                          @endforeach
+                    </div>
+                  </li>
+                  <li>
                     <div class="back-content">
                       <p> <i class="inline-icon material-icons"> person </i>&nbsp;&nbsp;{{$pedagang->nama}} </p>
                       <p> <i class="inline-icon material-icons"> email </i>&nbsp;&nbsp;{{$pedagang->email}} </p>

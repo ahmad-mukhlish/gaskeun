@@ -18,14 +18,25 @@
 
 </head>
 <body>
+
+  <ul id="dropdown" class="dropdown-content">
+    <li>
+      <a href="{{url('/makanan')}}"> Makanan </a>
+    </li>
+    <li class="divider"></li>
+    <li >
+      <a href="{{url('/bahan')}}"> Bahan </a>
+    </li>
+  </ul>
+
   <nav>
     <div class="nav-wrapper z-depth-3">
       <a href="#" class="brand-logo">
 
         <?php
-           echo ucfirst($title);
-           echo " ";
-           echo ucfirst($nama);
+        echo ucfirst($title);
+        echo " ";
+        echo ucfirst($nama);
         ?>
 
       </a>
@@ -45,13 +56,17 @@
         </li>
 
 
-        <li <?php if($title == "Makanan") echo "class = active" ;  ?>>
-          <a href="{{url('/makanan')}}"> Makanan </a>
+        <li <?php if($title == "Makanan Dagangan" || $title == "Bahan Dagangan") echo "class = active" ; ?>>
+          <a class="dropdown-trigger" href="#!" data-target="dropdown"> Dagangan
+            <i class="material-icons right">arrow_drop_down</i>
+          </a>
         </li>
+
 
         <li>
           <a href="{{url('/logout')}}"> Logout </a>
         </li>
+
 
 
 

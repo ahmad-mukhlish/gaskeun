@@ -142,7 +142,7 @@ $(document).ready(function(){
 
     if ($("#password").hasClass("valid") && $("#passwordConfirm").hasClass("valid")
     && $("#username").hasClass("valid")){
-      ajaxAddPedagang();
+      ajaxAddPedagangPost();
     }
     else if ($("#username").hasClass("invalid")){
       M.toast({html: 'Username belum valid'}) ;
@@ -289,7 +289,7 @@ function readGambar(input) {
 
 }
 
-function ajaxAddPedagang() {
+function ajaxAddPedagangPost() {
 
 
   var formdata = new FormData();
@@ -355,7 +355,7 @@ function ajaxAddPedagangFirebase(pedagang) {
 
 function addPedagangRealTimeFirebase(pedagang) {
 
-  var rootPemilik = firebase.database().ref().child("pmk"+pedagang.id_pemilik);
+  var rootPemilik = firebase.database().ref().child("pemilik").child("pmk"+pedagang.id_pemilik);
   var rootPedagang = rootPemilik.child("status").child("pdg"+pedagang.id_pedagang);
   rootPedagang.set({
     login : false,

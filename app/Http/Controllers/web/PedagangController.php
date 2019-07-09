@@ -24,6 +24,19 @@ class PedagangController extends Controller
       ->where('id_pemilik',$request->session()->get('id_pemilik'))
       ->get();
 
+      foreach ($listPedagang as $pedagangNow) {
+
+        $listDagangan = DB::table('tb_makanan AS m')
+        ->select('m.nama')
+        ->join('tb_dagangan AS d', 'm.id_makanan', '=', 'd.id_makanan')
+        ->join('tb_pedagang AS p', 'd.id_pedagang', '=', 'p.id_pedagang')
+        ->where('p.id_pedagang','=',$pedagangNow->id_pedagang)
+        ->get();
+
+        $pedagangNow->listDagangan = $listDagangan ;
+
+      }
+
       return view('pedagang.PedagangView')->
       with('nama',$request->session()->get('username'))->
       with('listPedagang',$listPedagang);
@@ -38,6 +51,30 @@ class PedagangController extends Controller
   {
     if ($request->session()->has('username')) {
       return view('pedagang.AddPedagangView')->with('nama',$request->session()->get('username'));
+    }else{
+      return redirect('/');
+    }
+  }
+
+
+  public function editPedagang(Request $request)
+  {
+    if ($request->session()->has('username')) {
+
+      $pedagang = PedagangModel::find($request->id_pedagang) ;
+
+      return view('pedagang.EditPedagangView')
+      ->with('nama',$request->session()->get('username'))
+      ->with('namaPedagang',$pedagang->nama)
+      ->with('no_telp',$pedagang->no_telp)
+      ->with('email',$pedagang->email)
+      ->with('jenis',$pedagang->jenis)
+      ->with('alamat',$pedagang->alamat)
+      ->with('username',$pedagang->username)
+      ->with('password',$pedagang->password)
+      ->with('foto',$pedagang->foto)
+      ->with('id',$pedagang->id_pedagang)
+      ;
     }else{
       return redirect('/');
     }
@@ -90,12 +127,13 @@ class PedagangController extends Controller
   {
 
     $pedagang = new PedagangModel;
+    $pedagang->username = $request->username;
+    $pedagang->password = $request->password;
     $pedagang->nama = $request->nama;
     $pedagang->no_telp = $request->no_telp;
     $pedagang->email = $request->email;
+    $pedagang->jenis = $request->jenis;
     $pedagang->alamat = $request->alamat;
-    $pedagang->username = $request->username;
-    $pedagang->password = $request->password;
     $pedagang->id_pemilik = $request->id_pemilik;
 
 
@@ -117,32 +155,12 @@ class PedagangController extends Controller
 
   }
 
-  public function editPedagang(Request $request)
-  {
-    if ($request->session()->has('username')) {
 
-      $pedagang = PedagangModel::find($request->id) ;
-
-      return view('pedagang.EditPedagangView')
-      ->with('nama',$request->session()->get('username'))
-      ->with('namaPedagang',$pedagang->nama)
-      ->with('no_telp',$pedagang->no_telp)
-      ->with('email',$pedagang->email)
-      ->with('alamat',$pedagang->alamat)
-      ->with('username',$pedagang->username)
-      ->with('password',$pedagang->password)
-      ->with('foto',$pedagang->foto)
-      ->with('id',$pedagang->id_pedagang)
-      ;
-    }else{
-      return redirect('/');
-    }
-  }
 
   public function editPedagangPost(Request $request)
   {
 
-    $pedagang = PedagangModel::find($request->id);
+    $pedagang = PedagangModel::find($request->id_pedagang);
 
     if ($request->file('gambar')!=null) {
       $fotoname = 'foto' . time() . '.png';
@@ -152,12 +170,14 @@ class PedagangController extends Controller
       $pedagang->foto = $fotoname;
     }
 
+    $pedagang->username = $request->username;
+    $pedagang->password = $request->password;
     $pedagang->nama = $request->nama;
     $pedagang->no_telp = $request->no_telp;
     $pedagang->email = $request->email;
+    $pedagang->jenis = $request->jenis;
     $pedagang->alamat = $request->alamat;
-    $pedagang->username = $request->username;
-    $pedagang->password = $request->password;
+
 
     $pedagang->save();
 

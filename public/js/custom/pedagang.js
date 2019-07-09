@@ -64,6 +64,7 @@ function flip(id){
 
 
 	prev(id);
+  prev(id);
 	$(page).val(1);
 	$(isAnimating).val("false");
 	$(carouselWidth).val(0);
@@ -154,7 +155,7 @@ function next(id) {
 	var carousel = "#carousel" + id ;
 
 
-	if ($(page).val() == 1) {
+	if ($(page).val() == 1 || $(page).val() == 2) {
 		// $('div.carouselPrev').show();
 		var currentLeft = Math.abs(parseInt($($(carousel+' ul')).css("left")));
 		var newLeft = currentLeft + carouselSlideWidth;
@@ -181,7 +182,7 @@ function prev(id) {
 	var carousel = "#carousel" + id ;
 
 
-	if ($(page).val() == 2) {
+	if ($(page).val() == 2 || $(page).val() == 3) {
 		// $('div.carouselNext').show();
 		var currentLeft = Math.abs(parseInt($($(carousel+' ul')).css("left")));
 		var newLeft = currentLeft - carouselSlideWidth;
@@ -200,7 +201,7 @@ function prev(id) {
 
 }
 
-function dialogHapus(id_pedagang, nama){
+function dialogHapusPedagang(id_pedagang, nama){
 
 	new duDialog('Konfirmasi Hapus', 'Anda Yakin Menghapus Data '+ nama +'?', duDialog.OK_CANCEL, {
 		okText: 'Ya',
@@ -208,26 +209,7 @@ function dialogHapus(id_pedagang, nama){
 		callbacks: {
 			okClick: function(){
 				this.hide();
-				var formdata = new FormData();
-				formdata.append("id_pedagang",id_pedagang);
-				$.ajax({
-					headers: {
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-					},
-					type:'POST',
-					url:"/deletePedagangPost",
-					data : formdata,
-					contentType: false,
-					processData: false,
-					success:function(data){
-						M.toast({html: 'Data pedagang dihapus, mereload halaman...'}) ;
-					  var pedagang = jQuery.parseJSON(data);
-						deletePedagangRealTimeFirebase(pedagang);
-						console.log(pedagang);
-
-					}
-
-				});
+        ajaxDeletePedagangPost(id_pedagang);
 			},
 			cancelClick: function(){
 				this.hide();
@@ -236,9 +218,32 @@ function dialogHapus(id_pedagang, nama){
 	});
 }
 
+function ajaxDeletePedagangPost(id_pedagang) {
+  var formdata = new FormData();
+  formdata.append("id_pedagang",id_pedagang);
+  $.ajax({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    type:'POST',
+    url:"/deletePedagangPost",
+    data : formdata,
+    contentType: false,
+    processData: false,
+    success:function(data){
+      M.toast({html: 'Data pedagang dihapus, mereload halaman...'}) ;
+      var pedagang = jQuery.parseJSON(data);
+      deletePedagangRealTimeFirebase(pedagang);
+      console.log(pedagang);
+
+    }
+
+  });
+}
+
 function deletePedagangRealTimeFirebase(pedagang) {
 
-  var rootPemilik = firebase.database().ref().child("pmk"+pedagang.id_pemilik);
+  var rootPemilik = firebase.database().ref().child("pemilik").child("pmk"+pedagang.id_pemilik);
 
 	var rootPedagangLokasi = rootPemilik.child("lokasi").child("pdg"+pedagang.id_pedagang);
 	rootPedagangLokasi.remove();

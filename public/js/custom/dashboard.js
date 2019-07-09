@@ -23,8 +23,8 @@ var markers;
 $(document).ready(function(){
 
   $(".card--content").hide();
-  rootStatus = firebase.database().ref().child("pmk"+$("#id_pemilik").val()).child("status");
-  rootLokasi = firebase.database().ref().child("pmk"+$("#id_pemilik").val()).child("lokasi");
+  rootStatus = firebase.database().ref().child("pemilik").child("pmk"+$("#id_pemilik").val()).child("status");
+  rootLokasi = firebase.database().ref().child("pemilik").child("pmk"+$("#id_pemilik").val()).child("lokasi");
 
   rootStatus.once('value', function (data) {
     var idPedagangList = Object.keys(data.val());
@@ -196,10 +196,10 @@ function initMap() {
 
   }
 
-  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-      'Error: The Geolocation service failed.' :
-      'Error: Your browser doesn\'t support geolocation.');
-      infoWindow.open(map);
-  }
+  // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  //   infoWindow.setPosition(pos);
+  //   infoWindow.setContent(browserHasGeolocation ?
+  //     'Error: The Geolocation service failed.' :
+  //     'Error: Your browser doesn\'t support geolocation.');
+  //     infoWindow.open(map);
+  // }

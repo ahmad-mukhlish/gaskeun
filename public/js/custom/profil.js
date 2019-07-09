@@ -5,29 +5,8 @@ $(document).ready(function(){
 
   $("#save").click(function(){
 
-    var formdata = new FormData();
-    formdata.append("gambar",$("#fileInput").prop('files')[0]);
-    formdata.append("nama",$("#nama").val());
-    formdata.append("no_telp",$("#no_telp").val());
-    formdata.append("email",$("#email").val());
-    formdata.append("jenis",$("#jenis").val());
-    formdata.append("alamat",$("textarea#alamat").val());
+    ajaxProfilPost();
 
-
-    $.ajax({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      type:'POST',
-      url:"/profilPost",
-      data : formdata,
-      contentType: false,
-      processData: false,
-      success:function(data){
-        M.toast({html: 'Data Profil Telah Diperbaharui'})
-      }
-
-    });
   });
 
 
@@ -62,4 +41,32 @@ function readGambar(input) {
     }
 
   }
+}
+
+function ajaxProfilPost() {
+
+  var formdata = new FormData();
+  formdata.append("gambar",$("#fileInput").prop('files')[0]);
+  formdata.append("nama",$("#nama").val());
+  formdata.append("no_telp",$("#no_telp").val());
+  formdata.append("email",$("#email").val());
+  formdata.append("jenis",$("#jenis").val());
+  formdata.append("alamat",$("textarea#alamat").val());
+
+
+  $.ajax({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    type:'POST',
+    url:"/profilPost",
+    data : formdata,
+    contentType: false,
+    processData: false,
+    success:function(data){
+      M.toast({html: 'Data Profil Telah Diperbaharui'})
+    }
+
+  });
+
 }
