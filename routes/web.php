@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 Route::get('/', 'web\PemilikController@index');
 Route::get('/logout', 'web\PemilikController@logout');
 
@@ -33,14 +23,16 @@ Route::post('/cekEmail', 'web\PedagangController@cekEmail');
 
 Route::get('/makanan', 'web\MakananController@index');
 
-
 Route::get('/bahan', 'web\BahanController@index');
 
 Route::post('/registerFireBase', 'firebase\FirebaseController@registerFireBase');
 Route::post('/addPedagangFireBase', 'firebase\FirebaseController@addPedagangFireBase');
 
 Route::post('/api/pedagang/login', 'api\pedagang\APIPedagangController@login');
+Route::get('/api/pedagang/pesananOnlineGet/{id_pedagang}', 'api\pedagang\APIPedagangController@pesananOnlineGet');
+Route::get('/api/pedagang/detailTransaksiGet/{id_transaksi}', 'api\pedagang\APIPedagangController@detailTransaksiGet');
 
 Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
 Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');
 Route::get('/api/pembeli/makananPedagangGet/{id_pedagang}', 'api\pembeli\APIPembeliController@makananPedagangGet');
+Route::post('/api/pembeli/pesanPedagangBerkelilingPost', 'api\pembeli\APIPembeliController@pesanPedagangBerkelilingPost');
