@@ -36,3 +36,5 @@ Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
 Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');
 Route::get('/api/pembeli/makananPedagangGet/{id_pedagang}', 'api\pembeli\APIPembeliController@makananPedagangGet');
 Route::post('/api/pembeli/pesanPedagangBerkelilingPost', 'api\pembeli\APIPembeliController@pesanPedagangBerkelilingPost');
+Route::get('/api/pembeli/retrieveTokenByIDGet/{id_pembeli}', 'api\pembeli\APIPembeliController@retrieveTokenByIDGet');
+Route::post('/api/pembeli/saveTokenByIDPost', 'api\pembeli\APIPembeliController@saveTokenByIDPost');

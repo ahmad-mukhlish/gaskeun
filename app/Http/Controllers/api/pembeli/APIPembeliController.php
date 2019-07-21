@@ -101,5 +101,41 @@ class APIPembeliController extends Controller
 
   }
 
+  public function saveTokenByIDPost(Request $request) {
+
+
+    $pembeli = PembeliModel::find($request->id_pembeli) ;
+    $pembeli->fcm_token = $request->fcm_token ;
+    $pesan = "Terjadi kesalahan" ;
+
+    if($pembeli->save()) {
+
+      $pesan = "Simpan Token Berhasil" ;
+
+    }
+
+    return $pesan ;
+
+  }
+
+
+
+  public function retrieveTokenByIDGet(Request $request) {
+
+   $pembeli = PembeliModel::find($request->id_pembeli) ;
+
+   $hasil = "" ;
+
+   if ($pembeli) {
+
+   $hasil = $pembeli->fcm_token ;
+
+   }
+
+   return $hasil ;
+
+  }
+
+
 
 }
