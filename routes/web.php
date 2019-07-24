@@ -31,6 +31,8 @@ Route::post('/addPedagangFireBase', 'firebase\FirebaseController@addPedagangFire
 Route::post('/api/pedagang/login', 'api\pedagang\APIPedagangController@login');
 Route::get('/api/pedagang/pesananOnlineGet/{id_pedagang}', 'api\pedagang\APIPedagangController@pesananOnlineGet');
 Route::get('/api/pedagang/detailTransaksiGet/{id_transaksi}', 'api\pedagang\APIPedagangController@detailTransaksiGet');
+Route::get('/api/pedagang/retrieveTokenByIDGet/{id_pedagang}', 'api\pedagang\APIPedagangController@retrieveTokenByIDGet');
+Route::post('/api/pedagang/saveTokenByIDPost', 'api\pedagang\APIPedagangController@saveTokenByIDPost');
 
 Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
 Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');

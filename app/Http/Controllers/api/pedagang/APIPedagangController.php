@@ -89,5 +89,40 @@ class APIPedagangController extends Controller
 
   }
 
+  public function saveTokenByIDPost(Request $request) {
+
+
+    $pedagang = PedagangModel::find($request->id_pedagang) ;
+    $pedagang->fcm_token = $request->fcm_token ;
+    $pesan = "Terjadi kesalahan" ;
+
+    if($pedagang->save()) {
+
+      $pesan = "Simpan Token Berhasil" ;
+
+    }
+
+    return $pesan ;
+
+  }
+
+
+
+  public function retrieveTokenByIDGet(Request $request) {
+
+   $pedagang = PedagangModel::find($request->id_pedagang) ;
+
+   $hasil = "" ;
+
+   if ($pedagang) {
+
+   $hasil = $pedagang->fcm_token ;
+
+   }
+
+   return $hasil ;
+
+  }
+
 
 }
