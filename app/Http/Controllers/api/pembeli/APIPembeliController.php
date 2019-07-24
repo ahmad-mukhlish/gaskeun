@@ -10,11 +10,17 @@ use Auth ;
 
 
 use App\model\PembeliModel;
+use App\model\PedagangModel;
 use App\model\TransaksiModel;
 use App\model\DetailTransaksiModel;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 
 class APIPembeliController extends Controller
 {
@@ -122,17 +128,45 @@ class APIPembeliController extends Controller
 
   public function retrieveTokenByIDGet(Request $request) {
 
-   $pembeli = PembeliModel::find($request->id_pembeli) ;
+    $pembeli = PembeliModel::find($request->id_pembeli) ;
 
-   $hasil = "" ;
+    $hasil = "" ;
 
-   if ($pembeli) {
+    if ($pembeli) {
 
-   $hasil = $pembeli->fcm_token ;
+      $hasil = $pembeli->fcm_token ;
 
-   }
+    }
 
-   return $hasil ;
+    return $hasil ;
+
+  }
+
+  public function notifPesan(Request $request) {
+
+    $optionBuilder = new OptionsBuilder();
+    $optionBuilder->setTimeToLive(60*20);
+
+    $notificationBuilder = new PayloadNotificationBuilder('Pesanan baru!');
+    $notificationBuilder->setBody("Pesanan di ".$request->area.
+    " senilai Rp.".$request->nilai)
+    ->setSound('default')
+    ->setIcon('ic_stat_name');
+
+    $dataBuilder = new PayloadDataBuilder();
+    $dataBuilder->addData(['a_data' => 'my_data']);
+
+    $option = $optionBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
+
+    $pedagang = PedagangModel::find($request->id_pedagang);
+
+    $token = $pedagang->fcm_token ;
+
+    $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+    return "Pesanan berhasil di notif";
 
   }
 

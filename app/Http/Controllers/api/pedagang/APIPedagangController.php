@@ -16,6 +16,11 @@ use App\model\PedagangModel;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class APIPedagangController extends Controller
 {
 
@@ -121,6 +126,24 @@ class APIPedagangController extends Controller
    }
 
    return $hasil ;
+
+  }
+
+
+  public function renullTokenPost(Request $request) {
+
+
+    $pedagang = PedagangModel::find($request->id_pedagang) ;
+    $pedagang->fcm_token = null;
+    $pesan = "Terjadi kesalahan" ;
+
+    if($pedagang->save()) {
+
+      $pesan = "Null Token Berhasil" ;
+
+    }
+
+    return $pesan ;
 
   }
 

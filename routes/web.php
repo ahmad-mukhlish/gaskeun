@@ -33,6 +33,8 @@ Route::get('/api/pedagang/pesananOnlineGet/{id_pedagang}', 'api\pedagang\APIPeda
 Route::get('/api/pedagang/detailTransaksiGet/{id_transaksi}', 'api\pedagang\APIPedagangController@detailTransaksiGet');
 Route::get('/api/pedagang/retrieveTokenByIDGet/{id_pedagang}', 'api\pedagang\APIPedagangController@retrieveTokenByIDGet');
 Route::post('/api/pedagang/saveTokenByIDPost', 'api\pedagang\APIPedagangController@saveTokenByIDPost');
+Route::post('/api/pedagang/renullTokenPost', 'api\pedagang\APIPedagangController@renullTokenPost');
+
 
 Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
 Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');
@@ -40,3 +42,4 @@ Route::get('/api/pembeli/makananPedagangGet/{id_pedagang}', 'api\pembeli\APIPemb
 Route::post('/api/pembeli/pesanPedagangBerkelilingPost', 'api\pembeli\APIPembeliController@pesanPedagangBerkelilingPost');
 Route::get('/api/pembeli/retrieveTokenByIDGet/{id_pembeli}', 'api\pembeli\APIPembeliController@retrieveTokenByIDGet');
 Route::post('/api/pembeli/saveTokenByIDPost', 'api\pembeli\APIPembeliController@saveTokenByIDPost');
+Route::post('/api/pembeli/notifPesan', 'api\pembeli\APIPembeliController@notifPesan');
