@@ -70,7 +70,7 @@ class APIPembeliController extends Controller
   public function pesanPedagangBerkelilingPost(Request $request) {
 
 
-    $pesan = "Pesanan Berhasil Diterima" ;
+    $pesan = "" ;
 
     $transaksi = new TransaksiModel;
     $transaksi->id_pembeli = $request->id_pembeli;
@@ -96,6 +96,7 @@ class APIPembeliController extends Controller
         $detail->id_transaksi = $transaksi->id_transaksi;
         $detail->jumlah = $pesanan["jumlah"] ;
         $detail->save();
+        $pesan = $transaksi->id_transaksi;
       }
     }
     else {
@@ -164,11 +165,47 @@ class APIPembeliController extends Controller
 
     $token = $pedagang->fcm_token ;
 
-    $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    $hasil = "Pesanan berhasil di notif" ;
 
-    return "Pesanan berhasil di notif";
+    if ($token == null) {
+      $hasil = "Pedagang tidak tersedia (Token pedagang tidak tersedia)" ;
+    } else
+    {
+      $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    }
+
+    return $hasil;
 
   }
+
+
+  public function transaksiByIDGet(Request $request){
+
+    $transaksi = DB::table('tb_transaksi AS t')
+    ->select('t.id_transaksi','t.latitude', 't.longitude', 'pem.id_pemilik', 'ped.id_pedagang', 'ped.nama', 'ped.no_telp')
+    ->join('tb_pedagang AS ped', 't.id_pedagang', '=', 'ped.id_pedagang')
+    ->join('tb_pemilik AS pem', 'ped.id_pemilik', '=', 'pem.id_pemilik')
+    ->where('t.id_transaksi','=',$request->id_transaksi)
+    ->get();
+
+    return json_encode($transaksi[0]);
+
+  }
+
+
+  public function detailTransaksiGet(Request $request){
+
+    $listDetailTransaksi = DB::table('tb_detail_transaksi AS d')
+    ->select('m.nama', 'm.harga', 'd.jumlah')
+    ->join('tb_makanan AS m', 'd.id_makanan', '=', 'm.id_makanan')
+    ->where('d.id_transaksi','=',$request->id_transaksi)
+    ->get();
+
+    return json_encode($listDetailTransaksi);
+
+  }
+
+
 
 
 

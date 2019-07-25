@@ -43,3 +43,5 @@ Route::post('/api/pembeli/pesanPedagangBerkelilingPost', 'api\pembeli\APIPembeli
 Route::get('/api/pembeli/retrieveTokenByIDGet/{id_pembeli}', 'api\pembeli\APIPembeliController@retrieveTokenByIDGet');
 Route::post('/api/pembeli/saveTokenByIDPost', 'api\pembeli\APIPembeliController@saveTokenByIDPost');
 Route::post('/api/pembeli/notifPesan', 'api\pembeli\APIPembeliController@notifPesan');
+Route::get('/api/pembeli/transaksiByIDGet/{id_transaksi}', 'api\pembeli\APIPembeliController@transaksiByIDGet');
+Route::get('/api/pembeli/detailTransaksiGet/{id_transaksi}', 'api\pembeli\APIPembeliController@detailTransaksiGet');
