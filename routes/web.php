@@ -34,6 +34,7 @@ Route::get('/api/pedagang/detailTransaksiGet/{id_transaksi}', 'api\pedagang\APIP
 Route::get('/api/pedagang/retrieveTokenByIDGet/{id_pedagang}', 'api\pedagang\APIPedagangController@retrieveTokenByIDGet');
 Route::post('/api/pedagang/saveTokenByIDPost', 'api\pedagang\APIPedagangController@saveTokenByIDPost');
 Route::post('/api/pedagang/renullTokenPost', 'api\pedagang\APIPedagangController@renullTokenPost');
+Route::get('/api/pedagang/transaksiByIDGet/{id_transaksi}', 'api\pedagang\APIPedagangController@transaksiByIDGet');
 
 
 Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');

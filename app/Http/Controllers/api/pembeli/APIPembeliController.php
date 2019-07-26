@@ -155,7 +155,7 @@ class APIPembeliController extends Controller
     ->setIcon('ic_stat_name');
 
     $dataBuilder = new PayloadDataBuilder();
-    $dataBuilder->addData(['a_data' => 'my_data']);
+    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi]);
 
     $option = $optionBuilder->build();
     $notification = $notificationBuilder->build();

@@ -148,4 +148,41 @@ class APIPedagangController extends Controller
   }
 
 
+  public function transaksiByIDGet(Request $request) {
+
+    $listTransaksi = DB::table('tb_transaksi AS t')
+    ->select('t.id_transaksi', 't.id_pembeli', 'p.nama','p.foto', 'p.no_telp','t.catatan',
+    't.pre_order_status','t.alamat','t.area', 't.latitude', 't.longitude')
+    ->join('tb_pembeli AS p', 't.id_pembeli', '=', 'p.id_pembeli')
+    ->where('t.id_transaksi','=',$request->id_transaksi)
+    ->get();
+
+    foreach ($listTransaksi as $transaksi) {
+      // retrive total harga and total item
+
+      $harga = 0 ;
+      $item = 0 ;
+
+      $listDetailTransaksi = DB::table('tb_detail_transaksi')
+      ->where('id_transaksi',$transaksi->id_transaksi)
+      ->get();
+
+      foreach ($listDetailTransaksi as $detailTransaksi) {
+
+        $makanan = MakananModel::find($detailTransaksi->id_makanan) ;
+        $harga += $makanan->harga * $detailTransaksi->jumlah ;
+        $item  += $detailTransaksi->jumlah ;
+
+        $transaksi->harga = $harga ;
+        $transaksi->item = $item ;
+
+      }
+
+    }
+
+    return json_encode($listTransaksi[0]);
+
+  }
+
+
 }
