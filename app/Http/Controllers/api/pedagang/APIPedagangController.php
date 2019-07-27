@@ -12,6 +12,7 @@ use Auth ;
 use App\model\MakananModel;
 use App\model\PemilikModel;
 use App\model\PedagangModel;
+use App\model\PembeliModel;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -181,6 +182,84 @@ class APIPedagangController extends Controller
     }
 
     return json_encode($listTransaksi[0]);
+
+  }
+
+  public function notifDekatPost(Request $request) {
+
+    $optionBuilder = new OptionsBuilder();
+    $optionBuilder->setTimeToLive(60*20);
+
+    $pedagang = PedagangModel::find($request->id_pedagang);
+
+
+    $notificationBuilder = new PayloadNotificationBuilder($pedagang->nama." Sudah Dekat");
+
+
+    $notificationBuilder->setBody("Pedagang ".$pedagang->jenis." Mendekat")
+    ->setSound('default')
+    ->setIcon('ic_stat_name');
+
+    $dataBuilder = new PayloadDataBuilder();
+    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'jenis' => 'dekat']);
+
+    $option = $optionBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
+
+    $pembeli = PembeliModel::find($request->id_pembeli);
+
+    $token = $pembeli->fcm_token ;
+
+    $hasil = "Pendekatan berhasil di notif" ;
+
+    if ($token == null) {
+      $hasil = "Pembeli tidak tersedia (Token pedagang tidak tersedia)" ;
+    } else
+    {
+      $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    }
+
+    return $hasil;
+
+  }
+
+  public function notifSelesaiPost(Request $request) {
+
+    $optionBuilder = new OptionsBuilder();
+    $optionBuilder->setTimeToLive(60*20);
+
+
+
+    $notificationBuilder = new PayloadNotificationBuilder("Transaksi Selesai");
+
+    $pedagang = PedagangModel::find($request->id_pedagang);
+
+    $notificationBuilder->setBody("Terimakasih Telah Membeli")
+    ->setSound('default')
+    ->setIcon('ic_stat_name');
+
+    $dataBuilder = new PayloadDataBuilder();
+    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'jenis' => 'selesai']);
+
+    $option = $optionBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
+
+    $pembeli = PembeliModel::find($request->id_pembeli);
+
+    $token = $pembeli->fcm_token ;
+
+    $hasil = "Penyelesaian berhasil di notif" ;
+
+    if ($token == null) {
+      $hasil = "Pembeli tidak tersedia (Token pedagang tidak tersedia)" ;
+    } else
+    {
+      $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    }
+
+    return $hasil;
 
   }
 

@@ -143,7 +143,7 @@ class APIPembeliController extends Controller
 
   }
 
-  public function notifPesan(Request $request) {
+  public function notifPesanPost(Request $request) {
 
     $optionBuilder = new OptionsBuilder();
     $optionBuilder->setTimeToLive(60*20);
@@ -182,7 +182,8 @@ class APIPembeliController extends Controller
   public function transaksiByIDGet(Request $request){
 
     $transaksi = DB::table('tb_transaksi AS t')
-    ->select('t.id_transaksi','t.latitude', 't.longitude', 'pem.id_pemilik', 'ped.id_pedagang', 'ped.nama', 'ped.no_telp')
+    ->select('t.id_transaksi','t.latitude', 't.longitude', 'pem.id_pemilik',
+    'ped.id_pedagang', 'ped.nama', 'ped.no_telp','t.catatan')
     ->join('tb_pedagang AS ped', 't.id_pedagang', '=', 'ped.id_pedagang')
     ->join('tb_pemilik AS pem', 'ped.id_pemilik', '=', 'pem.id_pemilik')
     ->where('t.id_transaksi','=',$request->id_transaksi)
