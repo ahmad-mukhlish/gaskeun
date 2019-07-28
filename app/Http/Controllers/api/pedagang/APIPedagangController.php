@@ -116,17 +116,17 @@ class APIPedagangController extends Controller
 
   public function retrieveTokenByIDGet(Request $request) {
 
-   $pedagang = PedagangModel::find($request->id_pedagang) ;
+    $pedagang = PedagangModel::find($request->id_pedagang) ;
 
-   $hasil = "" ;
+    $hasil = "" ;
 
-   if ($pedagang) {
+    if ($pedagang) {
 
-   $hasil = $pedagang->fcm_token ;
+      $hasil = $pedagang->fcm_token ;
 
-   }
+    }
 
-   return $hasil ;
+    return $hasil ;
 
   }
 
@@ -263,5 +263,23 @@ class APIPedagangController extends Controller
 
   }
 
+  public function rekomendasiAreaGet(Request $request) {
+
+    $listRekomendasi = DB::table('tb_transaksi AS t')
+    ->select(DB::raw('t.area, SUM(d.jumlah * m.harga) pendapatan'))
+    ->join('tb_pedagang AS p', 't.id_pedagang', '=', 'p.id_pedagang')
+    ->join('tb_detail_transaksi AS d', 't.id_transaksi', '=', 'd.id_transaksi')
+    ->join('tb_makanan AS m', 'd.id_makanan', '=', 'm.id_makanan')
+    ->where('t.status','=',1)
+    ->where('t.tanggal','=',$request->tanggal)
+    ->where('t.id_pedagang','=',$request->id_pedagang)
+    ->groupBy('t.area')
+    ->orderBy('pendapatan', 'desc')
+    ->get();
+
+    return json_encode($listRekomendasi);
+
+
+  }
 
 }
