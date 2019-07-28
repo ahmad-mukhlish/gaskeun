@@ -37,6 +37,7 @@ Route::post('/api/pedagang/renullTokenPost', 'api\pedagang\APIPedagangController
 Route::get('/api/pedagang/transaksiByIDGet/{id_transaksi}', 'api\pedagang\APIPedagangController@transaksiByIDGet');
 Route::post('/api/pedagang/notifDekatPost', 'api\pedagang\APIPedagangController@notifDekatPost');
 Route::post('/api/pedagang/notifSelesaiPost', 'api\pedagang\APIPedagangController@notifSelesaiPost');
+Route::post('/api/pedagang/updateTransaksiPost', 'api\pedagang\APIPedagangController@updateTransaksiPost');
 Route::get('/api/pedagang/rekomendasiAreaGet/{tanggal}/{id_pedagang}', 'api\pedagang\APIPedagangController@rekomendasiAreaGet');
 
 

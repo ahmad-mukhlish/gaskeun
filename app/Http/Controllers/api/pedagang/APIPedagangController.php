@@ -13,6 +13,7 @@ use App\model\MakananModel;
 use App\model\PemilikModel;
 use App\model\PedagangModel;
 use App\model\PembeliModel;
+use App\model\TransaksiModel;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -53,6 +54,7 @@ class APIPedagangController extends Controller
     't.pre_order_status','t.alamat','t.area', 't.latitude', 't.longitude')
     ->join('tb_pembeli AS p', 't.id_pembeli', '=', 'p.id_pembeli')
     ->where('t.id_pedagang','=',$request->id_pedagang)
+    ->where('t.status','=',0)
     ->get();
 
     foreach ($listTransaksi as $transaksi) {
@@ -260,6 +262,24 @@ class APIPedagangController extends Controller
     }
 
     return $hasil;
+
+  }
+
+
+  public function updateTransaksiPost(Request $request) {
+
+    $hasil = "Terjadi kesalahan" ;
+
+    $transaksi = TransaksiModel::find($request->id_transaksi);
+    $transaksi->cuaca = $request->cuaca ;
+    $transaksi->status = 1 ;
+    if ($transaksi->save()) {
+
+      $hasil = "Transaksi berhasi diupdate" ;
+
+    }
+
+    return $hasil ;
 
   }
 
