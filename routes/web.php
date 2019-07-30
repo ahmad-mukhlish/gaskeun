@@ -41,7 +41,7 @@ Route::post('/api/pedagang/updateTransaksiPost', 'api\pedagang\APIPedagangContro
 Route::get('/api/pedagang/rekomendasiAreaGet/{tanggal}/{id_pedagang}', 'api\pedagang\APIPedagangController@rekomendasiAreaGet');
 
 
-Route::get('/api/pedagang/rekomendasiBahanGet/{tanggal_hari_ini}/{tanggal_kemarin}/{id_pemilik}', 'web\PemilikController@rekomendasiBahanGet');
+Route::get('/api/pedagang/rekomendasiBahanDanMakananGet/{tanggal}/{id_pemilik}/{latitude}/{longitude}', 'web\PemilikController@rekomendasiBahanDanMakananGet');
 
 Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
 Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');
