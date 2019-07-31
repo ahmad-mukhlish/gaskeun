@@ -52,3 +52,10 @@ Route::post('/api/pembeli/saveTokenByIDPost', 'api\pembeli\APIPembeliController@
 Route::post('/api/pembeli/notifPesanPost', 'api\pembeli\APIPembeliController@notifPesanPost');
 Route::get('/api/pembeli/transaksiByIDGet/{id_transaksi}', 'api\pembeli\APIPembeliController@transaksiByIDGet');
 Route::get('/api/pembeli/detailTransaksiGet/{id_transaksi}', 'api\pembeli\APIPembeliController@detailTransaksiGet');
+Route::post('/api/pembeli/ratingPedagangPost', 'api\pembeli\APIPembeliController@ratingPedagangPost');
+Route::get('/api/pembeli/pedagangByIDGet/{id_pedagang}', 'api\pembeli\APIPembeliController@pedagangByIDGet');
+Route::post('/api/pembeli/subscribePost', 'api\pembeli\APIPembeliController@subscribePost');
+Route::post('/api/pembeli/notifSubscribePost', 'api\pembeli\APIPembeliController@notifSubscribePost');
+Route::get('/api/pembeli/cekSubscribeGet/{id_pedagang}/{id_pembeli}', 'api\pembeli\APIPembeliController@cekSubscribeGet');
+Route::post('/api/pembeli/deleteTransaksiPost', 'api\pembeli\APIPembeliController@deleteTransaksiPost');
+Route::post('/api/pembeli/notifDeleteTransaksiPost', 'api\pembeli\APIPembeliController@notifDeleteTransaksiPost');

@@ -13,6 +13,7 @@ use App\model\PembeliModel;
 use App\model\PedagangModel;
 use App\model\TransaksiModel;
 use App\model\DetailTransaksiModel;
+use App\model\SubscribeModel;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -155,7 +156,7 @@ class APIPembeliController extends Controller
     ->setIcon('ic_stat_name');
 
     $dataBuilder = new PayloadDataBuilder();
-    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi]);
+    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'jenis' => 'pesan']);
 
     $option = $optionBuilder->build();
     $notification = $notificationBuilder->build();
@@ -206,8 +207,139 @@ class APIPembeliController extends Controller
 
   }
 
+  public function ratingPedagangPost(Request $request){
 
+    $transaksi = TransaksiModel::find($request->id_transaksi) ;
+    $transaksi->rating = $request->rating ;
+    $pesan = "Terjadi kesalahan" ;
 
+    if($transaksi->save()) {
 
+      $pesan = "Simpan Rating Berhasil" ;
+
+    }
+
+    return $pesan ;
+
+  }
+
+  public function pedagangByIDGet(Request $request){
+    $pedagang = PedagangModel::find($request->id_pedagang) ;
+    return json_encode($pedagang) ;
+  }
+
+  public function subscribePost(Request $request) {
+
+    $pesan = "Terjadi kesalahan" ;
+    $subscribe = new SubscribeModel;
+    $subscribe->id_pedagang = $request->id_pedagang ;
+    $subscribe->id_pembeli = $request->id_pembeli ;
+    if ($subscribe->save())
+    {$pesan = "subscribe berhasil" ;}
+
+    return $pesan ;
+
+  }
+
+  public function notifSubscribePost(Request $request) {
+
+    $optionBuilder = new OptionsBuilder();
+    $optionBuilder->setTimeToLive(60*20);
+
+    $notificationBuilder = new PayloadNotificationBuilder('Langganan baru!');
+    $pembeli = PembeliModel::find($request->id_pembeli);
+
+    $notificationBuilder->setBody($pembeli->nama.
+    " telah menjadi langganan Anda")
+    ->setSound('default')
+    ->setIcon('ic_stat_name');
+
+    $dataBuilder = new PayloadDataBuilder();
+    $dataBuilder->addData(['jenis' => 'subscribe']);
+
+    $option = $optionBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
+
+    $pedagang = PedagangModel::find($request->id_pedagang);
+
+    $token = $pedagang->fcm_token ;
+
+    $hasil = "notif subscribe berhasil" ;
+
+    if ($token == null) {
+      $hasil = "Pedagang tidak tersedia (Token pedagang tidak tersedia)" ;
+    } else
+    {
+      $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    }
+
+    return $hasil;
+
+  }
+
+  public function cekSubscribeGet(Request $request){
+
+    $pesan = false ;
+    $subscribe = SubscribeModel::where('id_pedagang', $request->id_pedagang)
+    ->where('id_pembeli', $request->id_pembeli)
+    ->first();
+
+    if ($subscribe != null) {
+      $pesan = true ;
+    }
+
+    return json_encode($pesan) ;
+  }
+
+  public function deleteTransaksiPost(Request $request){
+
+    $pesan = "Terjadi kesalahan" ;
+    $hapus = TransaksiModel::where('id_transaksi',$request->id_transaksi)->delete();
+    $transaksi = TransaksiModel::find($request->id_transaksi) ;
+
+    if ($transaksi == null) {
+      $pesan = "hapus data berhasil" ;
+    }
+
+    return $pesan;
+  }
+
+  public function notifDeleteTransaksiPost(Request $request) {
+
+    $optionBuilder = new OptionsBuilder();
+    $optionBuilder->setTimeToLive(60*20);
+
+    $notificationBuilder = new PayloadNotificationBuilder('Transaksi dibatalkan');
+    $pembeli = PembeliModel::find($request->id_pembeli);
+
+    $notificationBuilder->setBody($pembeli->nama.
+    " tidak jadi membeli")
+    ->setSound('default')
+    ->setIcon('ic_stat_name');
+
+    $dataBuilder = new PayloadDataBuilder();
+    $dataBuilder->addData(['jenis' => 'batal']);
+
+    $option = $optionBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
+
+    $pedagang = PedagangModel::find($request->id_pedagang);
+
+    $token = $pedagang->fcm_token ;
+
+    $hasil = "notif batal transaksi berhasil" ;
+
+    if ($token == null) {
+      $hasil = "Pedagang tidak tersedia (Token pedagang tidak tersedia)" ;
+    } else
+    {
+      $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+    }
+
+    return $hasil;
+
+  }
 
 }

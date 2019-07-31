@@ -242,7 +242,8 @@ class APIPedagangController extends Controller
     ->setIcon('ic_stat_name');
 
     $dataBuilder = new PayloadDataBuilder();
-    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'jenis' => 'selesai']);
+    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'id_pedagang'=> $pedagang->id_pedagang,
+    'jenis' => 'selesai']);
 
     $option = $optionBuilder->build();
     $notification = $notificationBuilder->build();

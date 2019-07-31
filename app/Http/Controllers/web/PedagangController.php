@@ -190,7 +190,7 @@ class PedagangController extends Controller
     Storage::disk('uploads')->delete('storage/pedagang-profiles/'.$pedagang->foto);
     $hapus = PedagangModel::where('id_pedagang',$request->id_pedagang)->delete();
 
-    return json_encode($pedagang);
+    return json_encode($pedagang);  
   }
 
 
