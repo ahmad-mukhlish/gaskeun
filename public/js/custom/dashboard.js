@@ -166,40 +166,137 @@ function initMap() {
   map = new google.maps.Map(
     document.getElementById('map'), {zoom: 24, center: bdg});
 
-    //TODO
+    geoLocationInit();
+  }
 
-    // infoWindow = new google.maps.InfoWindow;
-    //
-    //
-    //
-    //        if (navigator.geolocation) {
-    //          navigator.geolocation.getCurrentPosition(function(position) {
-    //            var pos = {
-    //              lat: position.coords.latitude,
-    //              lng: position.coords.longitude
-    //            };
-    //
-    //            infoWindow.setPosition(pos);
-    //            infoWindow.setContent('Location found.');
-    //            infoWindow.open(map);
-    //            map.setCenter(pos);
-    //          }, function() {
-    //            handleLocationError(true, infoWindow, map.getCenter());
-    //          });
-    //        } else {
-    //          // Browser doesn't support Geolocation
-    //          handleLocationError(false, infoWindow, map.getCenter());
-    //        }
+  function geoLocationInit() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, fail);
+    } else {
+      alert("Browser not supported");
+    }
+  }
 
+  function success(position) {
 
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
 
+    today = yyyy + '-' + mm + '-' + dd ;
+
+    console.log(today);
+
+    var id_pemilik = $("#id_pemilik").val() ;
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+
+    ajaxRekomendasiBahanDanMakananGet(today,id_pemilik,lat,long);
 
   }
 
-  // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  //   infoWindow.setPosition(pos);
-  //   infoWindow.setContent(browserHasGeolocation ?
-  //     'Error: The Geolocation service failed.' :
-  //     'Error: Your browser doesn\'t support geolocation.');
-  //     infoWindow.open(map);
-  // }
+  function fail() {
+    alert("it fails");
+  }
+
+  function ajaxRekomendasiBahanDanMakananGet(tanggal, id_pemilik, latitude, longitude) {
+
+    var formdata2 = new FormData();
+    formdata2.append("tanggal",tanggal);
+    formdata2.append("id_pemilik",id_pemilik);
+    formdata2.append("latitude",latitude);
+    formdata2.append("longitude",longitude);
+
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      type:'POST',
+      url:"rekomendasiBahanDanMakananGet/",
+      data : formdata2,
+      contentType: false,
+      processData: false,
+      success:function(data){
+
+        var response = jQuery.parseJSON(data);
+        var listBahan = response["bahan"] ;
+        var listMakanan = response["makanan"]
+        var biaya = 0 ;
+        var pendapatan = 0 ;
+
+        listBahan.forEach(function(bahanNow, index){
+
+          $("#kilogram"+listBahan[index].id_bahan).html(reformatKilogram(listBahan[index].kilogram));
+          $("#harga"+listBahan[index].id_bahan).html(reformatRupiah(listBahan[index].harga));
+          biaya += listBahan[index].harga ;
+        }) ;
+
+        $("#totalBiaya").html(reformatRupiah(biaya));
+
+        listMakanan.forEach(function(MakananNow, index){
+
+          var jumlah = listMakanan[index].jumlah;
+          var harga =  listMakanan[index].harga;
+
+          $("#jumlah"+listMakanan[index].id_makanan).html(reformatJumlah(jumlah));
+          $("#pendapatan"+listMakanan[index].id_makanan).html(reformatRupiah(jumlah * harga));
+          pendapatan += jumlah * harga ;
+        }) ;
+
+        $("#totalPendapatan").html(reformatRupiah(pendapatan));
+
+      }
+    });
+  }
+
+  function reformatKilogram(kilogram) {
+
+
+    var hasil = "" ;
+    if (kilogram == 0) {
+      hasil = "-" ;
+    }
+    else if (kilogram < 1 && kilogram > 0.1)
+    {
+      hasil = kilogram * 10 + " ons"
+    }
+    else if (kilogram < 0.1) {
+      hasil = kilogram * 1000 + " gram"
+    }
+
+
+    return hasil ;
+
+  }
+
+  function reformatRupiah(harga) {
+
+
+    var hasil = "" ;
+    if (harga == 0) {
+      hasil = "-" ;
+    }
+    else {
+      hasil = "Rp. " + harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") ;
+    }
+
+    return hasil ;
+
+  }
+
+  function reformatJumlah(jumlah) {
+
+
+    var hasil = "" ;
+    if (jumlah == 0) {
+      hasil = "-" ;
+    }
+    else {
+      hasil = jumlah + "";
+    }
+
+    return hasil ;
+
+  }

@@ -26,9 +26,19 @@ class PemilikController extends Controller
       ->where('id_pemilik',$request->session()->get('id_pemilik'))
       ->get();
 
+      $listMakanan  = DB::table('tb_makanan')
+      ->where('id_pemilik',$request->session()->get('id_pemilik'))
+      ->get();
+
+      $listBahan  = DB::table('tb_bahan')
+      ->where('id_pemilik',$request->session()->get('id_pemilik'))
+      ->get();
+
       return view('pemilik.DashboardView')
       ->with('nama',$request->session()->get('username'))
-      ->with('listPedagang',$listPedagang);
+      ->with('listPedagang',$listPedagang)
+      ->with('listMakanan',$listMakanan)
+      ->with('listBahan',$listBahan);
 
     } else {
       return redirect('/login');
@@ -118,7 +128,7 @@ class PemilikController extends Controller
   private function getMakananTerjualHariIni($tanggalHariIni, $idPemilik) {
 
     $hariIniFromDB = DB::table('tb_transaksi AS t')
-    ->select(DB::raw('m.id_makanan, m.nama makanan, SUM(d.jumlah) jumlah'))
+    ->select(DB::raw('m.id_makanan, m.nama makanan, SUM(d.jumlah) jumlah','m.harga'))
     ->join('tb_detail_transaksi AS d', 't.id_transaksi', '=', 'd.id_transaksi')
     ->join('tb_makanan AS m', 'd.id_makanan', '=', 'm.id_makanan')
     ->join('tb_pemilik AS p', 'm.id_pemilik', '=', 'p.id_pemilik')
@@ -130,7 +140,7 @@ class PemilikController extends Controller
 
 
     $listMakanan = DB::table('tb_makanan AS m')
-    ->select('m.id_makanan','m.nama')
+    ->select('m.id_makanan','m.nama','m.harga')
     ->where('m.id_pemilik',$idPemilik)
     ->get();
 
@@ -153,7 +163,7 @@ class PemilikController extends Controller
   private function getMakananTerjualKemarin($tanggalKemarin, $idPemilik) {
 
     $kemarinFromDB = DB::table('tb_transaksi AS t')
-    ->select(DB::raw('m.id_makanan, m.nama makanan, SUM(d.jumlah) jumlah'))
+    ->select(DB::raw('m.id_makanan, m.nama makanan, SUM(d.jumlah) jumlah','m.harga'))
     ->join('tb_detail_transaksi AS d', 't.id_transaksi', '=', 'd.id_transaksi')
     ->join('tb_makanan AS m', 'd.id_makanan', '=', 'm.id_makanan')
     ->join('tb_pemilik AS p', 'm.id_pemilik', '=', 'p.id_pemilik')
@@ -165,7 +175,7 @@ class PemilikController extends Controller
 
 
     $listMakanan = DB::table('tb_makanan AS m')
-    ->select('m.id_makanan','m.nama')
+    ->select('m.id_makanan','m.nama','m.harga')
     ->where('m.id_pemilik',$idPemilik)
     ->get();
 
@@ -219,7 +229,7 @@ class PemilikController extends Controller
   public function getPreOrderMakananList($tanggalBesok,$idPemilik) {
 
     $preOrderFromDB = DB::table('tb_transaksi AS t')
-    ->select(DB::raw('m.id_makanan, m.nama makanan, SUM(d.jumlah) jumlah'))
+    ->select(DB::raw('m.id_makanan, m.nama makanan, SUM(d.jumlah) jumlah','m.harga'))
     ->join('tb_detail_transaksi AS d', 't.id_transaksi', '=', 'd.id_transaksi')
     ->join('tb_makanan AS m', 'd.id_makanan', '=', 'm.id_makanan')
     ->join('tb_pemilik AS p', 'm.id_pemilik', '=', 'p.id_pemilik')
@@ -231,7 +241,7 @@ class PemilikController extends Controller
 
 
     $listMakanan = DB::table('tb_makanan AS m')
-    ->select('m.id_makanan','m.nama')
+    ->select('m.id_makanan','m.nama','m.harga')
     ->where('m.id_pemilik',$idPemilik)
     ->get();
 

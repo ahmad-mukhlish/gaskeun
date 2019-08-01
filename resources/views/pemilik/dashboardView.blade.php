@@ -2,10 +2,12 @@
 <head>
   <title> Dashboard </title>
 
+  <!-- meta crsf token for ajax post -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
 
   <!-- custom css and js for this blade -->
@@ -36,12 +38,79 @@
     <input type="hidden" id="<?php echo $pedagang->id_pedagang?>" value="{{$count}}">
 
     @endforeach
-
-
   </section>
+
+
+  <br>
+  <h3> <strong> <center> Rekomendasi Bahan </center> </strong> </h3>
+  <table class="striped centered">
+    <thead>
+      <tr>
+        <th>Nama Bahan</th>
+        <th>Banyak yang disarankan</th>
+        <th>Harga per kilogram </th>
+        <th>Biaya per bahan </th>s
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($listBahan as $bahan)
+      <tr>
+        <td>{{ucwords($bahan->nama)}}</td>
+        <td id="<?php echo "kilogram".$bahan->id_bahan?>"> </td>
+        <td> <?php echo "Rp. ".number_format($bahan->harga*1000,0,',','.')  ?> </td>
+        <td id="<?php echo "harga".$bahan->id_bahan?>"> </td>
+      </tr>
+      @endforeach
+      <thead>
+        <tr>
+          <th>Total Biaya</th>
+          <th></th>
+          <th></th>
+          <th id="totalBiaya"></th>s
+        </tr>
+      </thead>
+    </tbody>
+  </table>
+
+  <br>
+
+  <br>
+  <h3> <strong> <center> Rekomendasi Makanan </center> </strong> </h3>
+  <table class="striped centered">
+    <thead>
+      <tr>
+        <th>Nama Makanan</th>
+        <th>Jumlah Makanan yang disarankan</th>
+        <th>Harga Makanan </th>
+        <th>Pendapatan Makanan </th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($listMakanan as $makanan)
+      <tr>
+        <td>{{ucwords($makanan->nama)}}</td>
+        <td id="<?php echo "jumlah".$makanan->id_makanan?>"> </td>
+        <td> <?php echo "Rp. ".number_format($makanan->harga,0,',','.')  ?> </td>
+        <td id="<?php echo "pendapatan".$makanan->id_makanan?>"> </td>
+      </tr>
+      @endforeach
+      <thead>
+        <tr>
+          <th>Total Pendapatan</th>
+          <th></th>
+          <th></th>
+          <th id="totalPendapatan"></th>s
+        </tr>
+      </thead>
+    </tbody>
+  </table>
+
+
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaYa3SZ4n5pYR3Q-Twzqd4lNPPzf4kzlM&callback=initMap">
   </script>
+
+
   @endsection
 
   <?php

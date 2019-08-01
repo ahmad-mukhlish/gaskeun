@@ -11,6 +11,8 @@ Route::post('/registerPost', 'web\RegisterController@registerPost');
 
 Route::get('/profil', 'web\ProfilController@index');
 Route::post('/profilPost', 'web\ProfilController@profilPost');
+Route::post('/rekomendasiBahanDanMakananGet', 'web\PemilikController@rekomendasiBahanDanMakananGet');
+
 
 Route::get('/pedagang', 'web\PedagangController@index');
 Route::get('/addPedagang', 'web\PedagangController@addPedagang');
@@ -41,7 +43,6 @@ Route::post('/api/pedagang/updateTransaksiPost', 'api\pedagang\APIPedagangContro
 Route::get('/api/pedagang/rekomendasiAreaGet/{tanggal}/{id_pedagang}', 'api\pedagang\APIPedagangController@rekomendasiAreaGet');
 
 
-Route::get('/api/pedagang/rekomendasiBahanDanMakananGet/{tanggal}/{id_pemilik}/{latitude}/{longitude}', 'web\PemilikController@rekomendasiBahanDanMakananGet');
 
 Route::post('/api/pembeli/login', 'api\pembeli\APIPembeliController@login');
 Route::get('/api/pembeli/pilihanPedagangGet', 'api\pembeli\APIPembeliController@pilihanPedagangGet');
