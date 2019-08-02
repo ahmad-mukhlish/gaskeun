@@ -11,7 +11,7 @@ Route::post('/registerPost', 'web\RegisterController@registerPost');
 
 Route::get('/profil', 'web\ProfilController@index');
 Route::post('/profilPost', 'web\ProfilController@profilPost');
-Route::post('/rekomendasiBahanDanMakananGet', 'web\PemilikController@rekomendasiBahanDanMakananGet');
+Route::post('/rekomendasiBahanDanMakananPost', 'web\PemilikController@rekomendasiBahanDanMakananPost');
 
 
 Route::get('/pedagang', 'web\PedagangController@index');

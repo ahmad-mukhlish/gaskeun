@@ -46,7 +46,7 @@ class PemilikController extends Controller
   }
 
 
-  public function rekomendasiBahanDanMakananGet(Request $request) {
+  public function rekomendasiBahanDanMakananPost(Request $request) {
 
 
     $tanggal = $request->tanggal ;

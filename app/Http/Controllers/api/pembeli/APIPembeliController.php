@@ -83,7 +83,7 @@ class APIPembeliController extends Controller
     $transaksi->longitude = $request->longitude;
     $transaksi->tanggal = $request->tanggal;
     $transaksi->status = 0;
-    $transaksi->pre_order_status = 0;
+    $transaksi->pre_order_status = $request->pre_order_status;
 
     //if insertion is success
     if($transaksi->save())

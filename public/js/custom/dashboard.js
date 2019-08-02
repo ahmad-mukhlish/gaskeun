@@ -192,7 +192,7 @@ function initMap() {
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
 
-    ajaxRekomendasiBahanDanMakananGet(today,id_pemilik,lat,long);
+    ajaxRekomendasiBahanDanMakananPost(today,id_pemilik,lat,long);
 
   }
 
@@ -200,10 +200,10 @@ function initMap() {
     alert("it fails");
   }
 
-  function ajaxRekomendasiBahanDanMakananGet(tanggal, id_pemilik, latitude, longitude) {
+  function ajaxRekomendasiBahanDanMakananPost(tanggal, id_pemilik, latitude, longitude) {
 
     var formdata2 = new FormData();
-    formdata2.append("tanggal",tanggal);
+    formdata2.append("tanggal","2019-07-31");
     formdata2.append("id_pemilik",id_pemilik);
     formdata2.append("latitude",latitude);
     formdata2.append("longitude",longitude);
@@ -214,13 +214,15 @@ function initMap() {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       type:'POST',
-      url:"rekomendasiBahanDanMakananGet/",
+      url:"/rekomendasiBahanDanMakananPost",
       data : formdata2,
       contentType: false,
       processData: false,
       success:function(data){
 
+
         var response = jQuery.parseJSON(data);
+        console.log(response);
         var listBahan = response["bahan"] ;
         var listMakanan = response["makanan"]
         var biaya = 0 ;
@@ -247,6 +249,10 @@ function initMap() {
 
         $("#totalPendapatan").html(reformatRupiah(pendapatan));
 
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
       }
     });
   }
