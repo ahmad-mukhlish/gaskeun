@@ -51,7 +51,7 @@ class APIPedagangController extends Controller
 
     $listTransaksi = DB::table('tb_transaksi AS t')
     ->select('t.id_transaksi', 't.id_pembeli', 'p.nama','p.foto', 'p.no_telp','t.catatan',
-    't.pre_order_status','t.alamat','t.area', 't.latitude', 't.longitude')
+    't.pre_order_status','t.alamat','t.area', 't.latitude', 't.longitude','t.tanggal')
     ->join('tb_pembeli AS p', 't.id_pembeli', '=', 'p.id_pembeli')
     ->where('t.id_pedagang','=',$request->id_pedagang)
     ->where('t.status','=',0)
@@ -193,7 +193,7 @@ class APIPedagangController extends Controller
     $optionBuilder->setTimeToLive(60*20);
 
     $pedagang = PedagangModel::find($request->id_pedagang);
-
+    $transaksi = TransaksiModel::find($request->id_transaksi);
 
     $notificationBuilder = new PayloadNotificationBuilder($pedagang->nama." Sudah Dekat");
 
@@ -203,7 +203,8 @@ class APIPedagangController extends Controller
     ->setIcon('ic_stat_name');
 
     $dataBuilder = new PayloadDataBuilder();
-    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'jenis' => 'dekat']);
+    $dataBuilder->addData(['id_transaksi' => $request->id_transaksi, 'jenis' => 'dekat',
+    'pre_order_status' => $transaksi->pre_order_status]);
 
     $option = $optionBuilder->build();
     $notification = $notificationBuilder->build();
