@@ -342,4 +342,61 @@ class APIPembeliController extends Controller
 
   }
 
+  public function registerPembeliPost(Request $request)
+  {
+
+    $pembeliCariUsername = PembeliModel::where('username', $request->username)
+    ->first();
+
+    $pembeliCariEmail = PembeliModel::where('email', $request->email)
+    ->first();
+
+
+    if ($pembeliCariUsername != null)
+    {
+      $hasil = "Username telah digunakan" ;
+      return $hasil ;
+    }
+    else if ($pembeliCariEmail != null) {
+      $hasil =  "Email telah digunakan" ;
+      return $hasil ;
+    }
+    else {
+      $pembeli = new PembeliModel;
+      $pembeli->username = $request->username;
+      $pembeli->password = $request->password;
+      $pembeli->email = $request->email;
+      $pembeli->nama = $request->nama;
+      $pembeli->no_telp = $request->no_telp;
+      $pembeli->email = $request->email;
+      $pembeli->alamat = $request->alamat;
+
+      if ($request->file('foto')!=null) {
+        $fotoname = 'foto' . time() . '.png';
+
+        $request->file('foto')->storeAS('storage/pembeli-profiles', $fotoname);
+        Storage::disk('uploads')->delete('storage/pembeli-profiles/'.$pembeli->foto);
+        $pembeli->foto = $fotoname;
+      }
+
+      $pembeli->save();
+
+      $user = PembeliModel::where('username', $request->username)
+      ->where('password', $request->password)
+      ->first();
+
+      $hasil =  "Register berhasil" ;
+
+      return $hasil ;
+    }
+
+  }
+
+  public function profilGet(Request $request){
+    $pembeli = PembeliModel::find($request->id_pembeli) ;
+    return json_encode($pembeli) ;
+  }
+
+
+
 }

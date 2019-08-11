@@ -60,3 +60,5 @@ Route::post('/api/pembeli/notifSubscribePost', 'api\pembeli\APIPembeliController
 Route::get('/api/pembeli/cekSubscribeGet/{id_pedagang}/{id_pembeli}', 'api\pembeli\APIPembeliController@cekSubscribeGet');
 Route::post('/api/pembeli/deleteTransaksiPost', 'api\pembeli\APIPembeliController@deleteTransaksiPost');
 Route::post('/api/pembeli/notifDeleteTransaksiPost', 'api\pembeli\APIPembeliController@notifDeleteTransaksiPost');
+Route::post('/api/pembeli/registerPembeliPost', 'api\pembeli\APIPembeliController@registerPembeliPost');
+Route::get('/api/pembeli/profilGet/{id_pembeli}', 'api\pembeli\APIPembeliController@profilGet');
